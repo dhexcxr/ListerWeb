@@ -21,7 +21,15 @@ public class MainMenu extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-		
+		System.out.println("doGet MainMenu");
+//		return;
+		List<ToDoList> listerLists = HiberFunc.getLists();
+		System.out.println(listerLists.get(0).toString());
+//		employeeList = employeeDaoImpl.showAllEmployees();
+		request.setAttribute("listerLists", listerLists);
+//		RequestDispatcher rd = request.getRequestDispatcher("ListLists.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+		rd.forward(request, response);
 	}
 	
 	@Override

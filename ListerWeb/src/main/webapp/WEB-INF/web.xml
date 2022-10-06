@@ -3,7 +3,8 @@
   <display-name>ListerWeb</display-name>
   
   <welcome-file-list>
-  	<welcome-file>index.jsp</welcome-file>
+<!--   	<welcome-file>index.jsp</welcome-file> -->
+<welcome-file>MainMenu</welcome-file>
     
   </welcome-file-list>
   
@@ -13,7 +14,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MainMenu</servlet-name>
-        <url-pattern>/MainMenu</url-pattern>
+<!--         <url-pattern>/MainMenu</url-pattern> -->
+<url-pattern></url-pattern>
     </servlet-mapping>
     
     
