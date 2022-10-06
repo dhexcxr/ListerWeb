@@ -35,7 +35,8 @@ public class MainMenu extends HttpServlet {
 			System.out.println(listerLists.get(0).toString());
 //			employeeList = employeeDaoImpl.showAllEmployees();
 			request.setAttribute("listerLists", listerLists);
-			RequestDispatcher rd = request.getRequestDispatcher("ListLists.jsp");
+//			RequestDispatcher rd = request.getRequestDispatcher("ListLists.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 		}
 

@@ -1,6 +1,7 @@
 package meprod.ListerWeb;
 
 import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,6 +44,7 @@ public class HiberFunc {
 			tx.commit();
 			System.out.println("we got to the end og the GetLists() quety");
 		} catch (HibernateException e) {
+//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -61,6 +63,7 @@ public class HiberFunc {
 			listToOpen = session.get(ToDoList.class, listPK); 
 			tx.commit();
 		} catch (HibernateException e) {
+//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
@@ -80,6 +83,7 @@ public class HiberFunc {
 			tx.commit();
 			result = true;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
+//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
@@ -99,6 +103,7 @@ public class HiberFunc {
 			tx.commit();
 			result = true;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
+//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
