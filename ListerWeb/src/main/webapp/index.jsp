@@ -28,8 +28,9 @@
 		</p>
 		
 		<table
-			style="height: 42px; width: 60%; border-collapse: collapse; margin-left: auto; margin-right: auto;"
-			border="1">
+			style="height: 42px; width: 60%; border-collapse: collapse;
+			margin-left: auto; margin-right: auto;" border="1">
+			
 			<tbody>
 				<tr style="height: 18px;">
 					<td style="width: 15%; height: 18px; text-align: center;">Open</td>
