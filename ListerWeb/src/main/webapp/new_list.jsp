@@ -19,7 +19,7 @@
 		</p>
 
 		<p style="text-align: center;">
-			<label for="create_list_item">New List Name:</label>
+			<label for="new_list_name">New List Name:</label>
 			<input name="new_list_name" type="text">
 		</p>
 
