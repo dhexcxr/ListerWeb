@@ -4,6 +4,7 @@ import static java.lang.System.out;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,15 +23,21 @@ public class MainMenu extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-		System.out.println("doGet MainMenu");
-//		return;
+		out.println("doGet MainMenu");
+
 		List<ToDoList> listerLists = HiberFunc.getLists();
-		System.out.println(listerLists.get(0).toString());
-//		employeeList = employeeDaoImpl.showAllEmployees();
+		out.println(listerLists.get(0).toString());
 		request.setAttribute("listerLists", listerLists);
-//		RequestDispatcher rd = request.getRequestDispatcher("ListLists.jsp");
-		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-		rd.forward(request, response);
+		
+		// new section
+		String listerListsId = UUID.randomUUID().toString();
+		request.getSession().setAttribute(listerListsId, listerLists);
+		request.setAttribute("listerListsId", listerListsId);
+		request.getRequestDispatcher("index.jsp").forward(request, response);		
+		// end new section
+		
+//		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+//		rd.forward(request, response);
 	}
 	
 	@Override
@@ -38,7 +45,7 @@ public class MainMenu extends HttpServlet {
             throws ServletException, IOException {
 
 		if(request.getParameter("open_list")!=null){
-			System.out.println("open_list_function start");
+			out.println("open_list_function start");
 			
 			String listButton = request.getParameter("open_list");
 //			int listIndex = Integer.parseInt(listButton.substring(listButton.lastIndexOf(' ') + 1));
@@ -72,6 +79,10 @@ public class MainMenu extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 				rd.forward(request, response);
 			}
+		}
+		
+		if (request.getParameter("create_list") != null) {
+			
 		}
 
 //		if(request.getParameter("updateEmployee")!=null){

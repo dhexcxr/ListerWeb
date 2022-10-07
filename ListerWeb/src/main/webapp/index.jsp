@@ -14,6 +14,9 @@
 	</form>
 
 	<form action="MainMenu" method="POST">
+<!-- 		new section -->
+		<input type="hidden" name="listerListsId" value="${listerListsId}" />
+<!-- 		end new section -->
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
