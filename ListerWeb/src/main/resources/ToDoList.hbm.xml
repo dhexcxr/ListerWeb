@@ -2,21 +2,22 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
- <class name="meprod.ListerWeb.ToDoList" table="todo_list">
-  <meta attribute="class-description">This class contains ToDo List Items.</meta>
-  <id column="TODO_LIST_ID" name="id" type="int">
-   <generator class="native"/>
-  </id>
-  <property column="name" generated="never" lazy="false" name="listName" type="string"/>
-  <property column="created_date" generated="never" lazy="false"
-   name="creationDateTime" type="timestamp"/>
-<!-- <many-to-one class="meprod.ListerHiber.ListItem" name="listItem"/> -->
+<class name="meprod.ListerWeb.ToDoList" table="todo_list">
+<meta attribute="class-description">This class contains ToDo List Items.</meta>
+
+	<id column="TODO_LIST_ID" name="id" type="int">
+   		<generator class="native"/>
+   	</id>
   
-        <list name = "listItems" cascade="all">
-         <key column = "TODO_LIST_ID"/>
-         <list-index column = "idx"/>
-         <one-to-many class="meprod.ListerWeb.ListItem"/>
-      </list>
+  	<property column="name" generated="never" lazy="false" name="listName" type="string"/>
   
- </class>
+  	<property column="created_date" generated="never" lazy="false" name="creationDateTime" type="timestamp"/>
+  
+	<list name = "listItems" cascade="all">
+		<key column = "TODO_LIST_ID"/>
+		<list-index column = "idx"/>
+		<one-to-many class="meprod.ListerWeb.ListItem"/>
+	</list>
+  
+</class>
 </hibernate-mapping>
