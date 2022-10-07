@@ -60,8 +60,29 @@ public class OpenList extends HttpServlet {
             throws ServletException, IOException {
 		out.println("OpenList.doPost");
 		
-		this.doGet(request, response);
+		if (request.getParameter("create_new_list_item") != null) {
+//			String openListId = (String) request.getSession().getAttribute("openListId");
+			RequestDispatcher rd = request.getRequestDispatcher("new_list_item.jsp");
+			rd.forward(request, response);
+			return;
+		}
 		
+		if (request.getParameter("save_new_list_item") != null) {
+			// TODO stuff to save new list
+			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+			String newListName = request.getParameter("new_list_item_name");
+			ToDoList openList = HiberFunc.getList(openListId);
+			openList.addListItem(newListName);
+			if (HiberFunc.saveList(openList)) {
+				out.println(openList.toString() + " save with new List Item successful");
+			} else {
+				out.println("error saving: " + openList.toString());
+			}
+			this.doGet(request, response);
+			return;
+		}
+		
+		this.doGet(request, response);
 	}
 
 }

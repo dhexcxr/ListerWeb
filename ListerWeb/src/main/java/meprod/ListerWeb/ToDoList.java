@@ -158,6 +158,12 @@ public class ToDoList implements Serializable{
 //		return true;
 		return false;
 	}
+	
+	protected void addListItem(String newListItemName) {
+//		boolean result = false;
+		listItems.add(new ListItem(newListItemName, listItems.size() + 1));		
+//		return result;
+	}
 
 	private void createListItem() {
 		out.print("What would you like to name the new To Do item? ");
