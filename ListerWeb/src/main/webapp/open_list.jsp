@@ -20,7 +20,7 @@
 		</p>
 
 		<p style="text-align: center;">
-			<input type="button" value="Create Lister List Item" name="create_list_item">
+			<input type="submit" value="Create Lister List Item" name="create_new_list_item">
 <!-- 			<input type="button" value="Delete Lister List Item" name="delete_list_item"> -->
 		</p>
 
@@ -50,7 +50,7 @@
 						<td style="width: 20%; height: 18px; text-align: center;">${listItem.done}</td>
 						<td style="width: 25%; height: 18px; text-align: center;">${listItem.finishedDateTime}</td>
 						<td style="width: 8%; height: 18px; text-align: center;">
-							<input type="button" value="Delete ${listItem.id}" name="delete_list_item">
+							<input type="submit" value="Delete ${listItem.id}" name="delete_list_item">
 						</td>
 					</tr>
 				</c:forEach>
