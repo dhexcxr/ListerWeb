@@ -26,7 +26,7 @@
 		</p>
 		
 		<p style="text-align: center;">
-			<input type="button" value="Create Lister List" name="create_list">
+			<input type="submit" value="Create New Lister List" name="create_new_list">
 <!-- 			<input type="button" value="Delete Lister List" name="delete_list"> -->
 		</p>
 		
@@ -52,7 +52,7 @@
 						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.listName}</td>
 						<td style="width: 36%; height: 18px; text-align: center;">${toDoList.creationDateTime}</td>
 						<td style="width: 12%; height: 18px; text-align: center;">
-							<input type="button" value="Delete ${toDoList.id}" name="delete_list">
+							<input type="submit" value="Delete ${toDoList.id}" name="delete_list">
 						</td>
 					</tr>
 				</c:forEach>

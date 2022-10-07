@@ -43,8 +43,25 @@ public class MainMenu extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+		
+		if (request.getParameter("create_new_list") != null) {
+			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
+			rd.forward(request, response);
+		}
+		
+		if (request.getParameter("save_new_list") != null) {
+			// TODO stuff to save new list
+			String newListName = request.getParameter("new_list_name");
+			ToDoList newList = new ToDoList(newListName);
+			if (HiberFunc.saveList(newList)) {
+				out.println(newList.toString() + " save successful");
+			} else {
+				out.println("error saving: " + newList.toString());
+			}
+			this.doGet(request, response);
+		}
 
-		if(request.getParameter("open_list")!=null){
+		if (request.getParameter("open_list") != null){
 			out.println("open_list_function start");
 			
 			String listButton = request.getParameter("open_list");
@@ -67,7 +84,7 @@ public class MainMenu extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-		if(request.getParameter("show_lists")!=null){
+		if (request.getParameter("show_lists") != null){
 			System.out.println("show list func start");
 			
 			List<ToDoList> listerLists = HiberFunc.getLists();
