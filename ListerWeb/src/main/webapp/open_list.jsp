@@ -9,7 +9,8 @@
 </head>
 <body>
 
-	<form action="MainMenu" method="POST"> <!-- maybe make this a different action  -->
+<!-- 	<form action="MainMenu" method="POST"> maybe make this a different action  -->
+		<form action="OpenList" method="POST">
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>

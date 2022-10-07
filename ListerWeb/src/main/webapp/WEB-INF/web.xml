@@ -17,6 +17,15 @@
         <url-pattern>/MainMenu</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>OpenList</servlet-name>
+        <servlet-class>meprod.ListerWeb.OpenList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OpenList</servlet-name>
+        <url-pattern>/OpenList</url-pattern>
+    </servlet-mapping>
+    
     
       <servlet>
         <servlet-name>ListItem</servlet-name>
