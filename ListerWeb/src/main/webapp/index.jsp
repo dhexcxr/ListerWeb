@@ -24,29 +24,33 @@
 		
 		<p style="text-align: center;">
 			<input type="button" value="Create Lister List" name="create_list">
-			<input type="button" value="Delete Lister List" name="delete_list">
+<!-- 			<input type="button" value="Delete Lister List" name="delete_list"> -->
 		</p>
 		
 		<table
-			style="height: 42px; width: 60%; border-collapse: collapse;
+			style="height: 42px; width: 90%; border-collapse: collapse;
 			margin-left: auto; margin-right: auto;" border="1">
 			
 			<tbody>
 				<tr style="height: 18px;">
-					<td style="width: 15%; height: 18px; text-align: center;">Open</td>
+					<td style="width: 12%; height: 18px; text-align: center;">Open</td>
 					<td style="width: 5%; height: 18px; text-align: center;">ID</td>
 					<td style="width: 35%; height: 18px; text-align: center;">Name</td>
-					<td style="width: 35%; height: 18px; text-align: center;">Created Date</td>
+					<td style="width: 36%; height: 18px; text-align: center;">Created Date</td>
+					<td style="width: 12%; height: 18px; text-align: center;">Delete</td>
 				</tr>
 
 				<c:forEach var="toDoList" items="${listerLists}">
 					<tr style="height: 18px;">
-						<td style="width: 15%; height: 18px; text-align: center;">
-							<input type="submit" value="Open List ${toDoList.id}" name="open_list">
+						<td style="width: 12%; height: 18px; text-align: center;">
+							<input type="submit" value="Open ${toDoList.id}" name="open_list">
 						</td>
 						<td style="width: 5%; height: 18px; text-align: center;">${toDoList.id}</td>
 						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.listName}</td>
-						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.creationDateTime}</td>
+						<td style="width: 36%; height: 18px; text-align: center;">${toDoList.creationDateTime}</td>
+						<td style="width: 12%; height: 18px; text-align: center;">
+							<input type="button" value="Delete ${toDoList.id}" name="delete_list">
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
