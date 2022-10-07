@@ -1,5 +1,7 @@
 package meprod.ListerWeb;
 
+import static java.lang.System.out;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +39,17 @@ public class MainMenu extends HttpServlet {
             throws ServletException, IOException {
 
 		if(request.getParameter("show_lists")!=null){
-			System.out.println("dude");
-//			return;
+			System.out.println("show list func start");
+			
 			List<ToDoList> listerLists = HiberFunc.getLists();
-			System.out.println(listerLists.get(0).toString());
-//			employeeList = employeeDaoImpl.showAllEmployees();
-			request.setAttribute("listerLists", listerLists);
-//			RequestDispatcher rd = request.getRequestDispatcher("ListLists.jsp");
-			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-			rd.forward(request, response);
+			if (listerLists == null) {
+				out.println("Database error...\n");
+			} else {
+				System.out.println("showList func - List of Lists: " + listerLists.get(0).toString());
+				request.setAttribute("listerLists", listerLists);
+				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);
+			}
 		}
 
 //		if(request.getParameter("updateEmployee")!=null){
