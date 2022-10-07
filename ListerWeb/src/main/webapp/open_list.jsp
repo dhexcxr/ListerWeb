@@ -58,6 +58,10 @@
 		</table>
 
 	</form>
+	
+	<p style="text-align: center;">
+		<input type=button value="Back" onCLick="history.back()">
+	</p>
 
 </body>
 </html>
