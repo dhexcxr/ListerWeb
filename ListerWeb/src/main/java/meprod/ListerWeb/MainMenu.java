@@ -30,6 +30,8 @@ public class MainMenu extends HttpServlet {
 		request.setAttribute("listerLists", listerLists);
 		
 		// new section
+		// TODO check if this has already been stored and place it in the same place so
+			// we don't create 30,000 copies of this on the server
 		String listerListsId = UUID.randomUUID().toString();
 		request.getSession().setAttribute(listerListsId, listerLists);
 		request.setAttribute("listerListsId", listerListsId);
