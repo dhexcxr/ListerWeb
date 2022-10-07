@@ -53,6 +53,10 @@ public class HiberFunc {
 		return listerLists;
 	}
 	
+	protected static ToDoList getList(String listPK) {
+		return getList(Integer.parseInt(listPK));
+	}
+	
 	protected static ToDoList getList(int listPK) {
 		// get one list by index/primary key
 		Session session = Lister.factory.openSession();
