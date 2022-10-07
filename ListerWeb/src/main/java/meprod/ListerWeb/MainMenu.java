@@ -66,23 +66,7 @@ public class MainMenu extends HttpServlet {
 		if (request.getParameter("open_list") != null){
 			out.println("open_list_function start");
 			
-			String listButton = request.getParameter("open_list");
-//			int listIndex = Integer.parseInt(listButton.substring(listButton.lastIndexOf(' ') + 1));
-			String listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
-			ToDoList listToOpen = HiberFunc.getList(listIndex);
-			
-			if (listToOpen == null) {		// if something went wrong
-				out.println("Database error...\n");
-			} else {		// open list, and save again when done
-				out.println("we have OPENED the Lsit!");
-				out.println(listToOpen.toString());
-//				listToOpen.openList();
-//				HiberFunc.saveList(listToOpen);
-			}
-
-			request.setAttribute("listToOpen", listToOpen);
-
-			RequestDispatcher rd = request.getRequestDispatcher("open_list.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
 		}
 
