@@ -10,7 +10,10 @@
 <body>
 
 	<form action="MainMenu" method="GET">
+		<!--  -->
+	</form>
 
+	<form action="MainMenu" method="POST">
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
@@ -46,11 +49,9 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			
 		</table>
-	</form>
-
-	<form action="MainMenu" method="POST">
-		<!--  -->
+			
 	</form>
 
 </body>
