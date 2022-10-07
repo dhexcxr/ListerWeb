@@ -42,7 +42,7 @@
 				<c:forEach var="toDoList" items="${listerLists}">
 					<tr style="height: 18px;">
 						<td style="width: 15%; height: 18px; text-align: center;">
-							<input type="button" value="Open" name="open_list_${toDoList.id}">
+							<input type="submit" value="Open List ${toDoList.id}" name="open_list">
 						</td>
 						<td style="width: 5%; height: 18px; text-align: center;">${toDoList.id}</td>
 						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.listName}</td>
