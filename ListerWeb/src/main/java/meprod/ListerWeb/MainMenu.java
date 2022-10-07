@@ -3,7 +3,6 @@ package meprod.ListerWeb;
 import static java.lang.System.out;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
