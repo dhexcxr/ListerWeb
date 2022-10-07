@@ -15,7 +15,7 @@
 		</p>
 
 		<p style="text-align: center; text-decoration: underline;">
-			<strong>${listToOpen.listName} Menu</strong>
+			<strong>${listToOpen.listName} List Menu</strong>
 		</p>
 
 		<p style="text-align: center;">
