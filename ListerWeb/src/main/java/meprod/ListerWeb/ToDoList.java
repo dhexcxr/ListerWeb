@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Scanner;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,8 +23,6 @@ import jakarta.persistence.Table;
 public class ToDoList implements Serializable{
 
 	private static final long serialVersionUID = -6494044540380915496L;
-
-	private static Scanner keyboard = new Scanner(System.in);
 
 	@Id
 	@Column(name = "todo_list_id")
@@ -47,7 +43,7 @@ public class ToDoList implements Serializable{
 	private List<ListItem> listItems;
 
 	public ToDoList() {
-		System.out.println("we got to the ToDoList constructor");
+		out.println("we got to the ToDoList constructor");
 	}
 
 	public ToDoList(String listName) {
@@ -91,86 +87,9 @@ public class ToDoList implements Serializable{
 	public String getDescription() {
 		return this.toString();
 	}
-
-	public void openList() {
-		while (true) {
-//			String listMenuSelection = showListMenu();
-//
-//			out.println();
-//
-//			switch (listMenuSelection) {
-//				case "1": {
-//					showListItems();
-//					break;
-//				}
-//				case "2": {
-//					createListItem();
-//					break;
-//				}
-//				case "3": {
-//					deleteListItem();
-//					break;
-//				}
-//				case "4": {
-//					checkOffListItem();
-//					break;
-//				}
-//				case "5": {
-//					return;
-//				}
-//				default:
-//					out.println("Invalid selection: " + listMenuSelection + "\n\n");
-//			}
-			// TODO move to web FE
-			break;
-		}
-	}
-
-	// TODO move to web FE
-	private String showListMenu() {
-//		out.println("List Menu for " + this.getListName());
-//		out.println("1. List To Do items");
-//		out.println("2. Create To Do item");
-//		out.println("3. Delete To Do item");
-//		out.println("4. Check off To Do item");
-//		out.println("5. Close list");
-//		out.print("\nMake a selection: ");
-//
-//		return keyboard.nextLine();
-		return null;
-	}
-
-	// TODO move to web FE
-	private boolean showListItems() {
-//		if (listItems.isEmpty()) {
-//			out.println("You have no To Do items on this list...\n");
-//			return false;
-//		}
-//
-//		out.println("Current Items on list:");
-//		ListIterator<ListItem> listerIterator = listItems.listIterator();
-//		while (listerIterator.hasNext()) {
-//			ListItem listItem = listerIterator.next();
-//			out.println(listItem.getToDoListItemNum() + ". " + listItem.toString());
-//		}
-//
-//		out.println();
-//		return true;
-		return false;
-	}
 	
 	protected void addListItem(String newListItemName) {
-//		boolean result = false;
 		listItems.add(new ListItem(newListItemName, listItems.size() + 1));		
-//		return result;
-	}
-
-	private void createListItem() {
-		out.print("What would you like to name the new To Do item? ");
-		String newListItemName = keyboard.nextLine();
-		listItems.add(new ListItem(newListItemName, listItems.size() + 1));
-		// TODO test for successful ToDo Item creation
-		out.println("New To Do item created...\n"); // TODO include To Do item name
 	}
 
 	protected void deleteListItem(String listItemIndex) {

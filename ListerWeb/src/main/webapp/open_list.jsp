@@ -5,47 +5,47 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>${listToOpen.listName} Menu</title>
 </head>
 <body>
 
-<!-- 	<form action="MainMenu" method="POST"> maybe make this a different action  -->
-		<form action="OpenList" method="POST">
+	<form action="OpenList" method="POST">
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
 
 		<p style="text-align: center; text-decoration: underline;">
-			<strong>${listToOpen.listName} List Menu</strong>
+			<strong>${listToOpen.listName} Menu</strong>
 		</p>
 
 		<p style="text-align: center;">
 			<input type="submit" value="Create Lister List Item" name="create_new_list_item">
-<!-- 			<input type="button" value="Delete Lister List Item" name="delete_list_item"> -->
 		</p>
 
-		<table
+		<table aria-label="List of a Lister List's Lister Items"
 			style="height: 42px; width: 90%; border-collapse: collapse; margin-left: auto; margin-right: auto;"
 			border="1">
 
-			<tbody>
+			<thead>
 				<tr style="height: 18px;">
-					<td style="width: 8%; height: 18px; text-align: center;">Check Off</td>
-					<td style="width: 3%; height: 18px; text-align: center;">ID</td>
-					<td style="width: 21%; height: 18px; text-align: center;">List Item Name</td>
-					<td style="width: 25%; height: 18px; text-align: center;">Created Date</td>
-					<td style="width: 20%; height: 18px; text-align: center;">Complete</td>
-					<td style="width: 25%; height: 18px; text-align: center;">Completed Date</td>
-					<td style="width: 8%; height: 18px; text-align: center;">Delete</td>
+					<th style="width: 8%; height: 18px; text-align: center;">Check Off</th>
+					<th style="width: 3%; height: 18px; text-align: center;">ID</th>
+					<th style="width: 21%; height: 18px; text-align: center;">List Item Name</th>
+					<th style="width: 25%; height: 18px; text-align: center;">Created Date</th>
+					<th style="width: 20%; height: 18px; text-align: center;">Complete</th>
+					<th style="width: 25%; height: 18px; text-align: center;">Completed Date</th>
+					<th style="width: 8%; height: 18px; text-align: center;">Delete</th>
 				</tr>
+			</thead>
 
+			<tbody>
 				<c:forEach var="listItem" items="${listToOpen.listItems}">
 					<tr style="height: 18px;">
 						<td style="width: 8%; height: 18px; text-align: center;">
 <%-- 							use some JS here: if ${listItem.done} === true { --%>
 <!-- 													[display "Done" or "Checked off"] -->
 <!-- 													} else { -->
-<!-- 													[display the "Check off...] button" -->
+<!-- 													[display the "Check off... button] " -->
 <!-- 													} -->
 <!-- 							then we can remove check for Done in Servlet and remote Complete column in this table -->
 							<input type="submit" value="Check Off ${listItem.toDoListItemNum}" name="check_off_list_item">

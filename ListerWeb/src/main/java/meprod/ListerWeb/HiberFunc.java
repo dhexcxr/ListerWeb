@@ -1,5 +1,7 @@
 package meprod.ListerWeb;
 
+import static java.lang.System.out;
+
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -12,39 +14,36 @@ public class HiberFunc {
 
 	private HiberFunc() {};
 	
-//	private static final SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory;
 
 	static {
-//		try {
-//			 sessionFactory = new Configuration().configure().buildSessionFactory();
-//		} catch (Throwable ex) {
-//			// Log the exception. 
-//			System.err.println("Initial SessionFactory creation failed." + ex);
-//			throw new ExceptionInInitializerError(ex);
-//		}
-		System.out.println("static instant of HiberFunc");
-		Lister.openDbConnection();
+		out.println("static instant of HiberFunc");
+		openDbConnection();
 	}
-
-//	protected static SessionFactory getSessionFactory() {
-//		return sessionFactory;
-//	}
+	
+	private static void openDbConnection() {
+		// attempt to set up session factory
+		try {
+			sessionFactory = new Configuration().configure().buildSessionFactory();
+		} catch (Exception ex) { 
+			out.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex); 
+		}
+	}
 
 
 	protected static List<ToDoList> getLists() {
 		// get all lists currently in DB
 		System.out.println("start of getLists");
-		Session session = Lister.factory.openSession();
-//		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		List<ToDoList> listerLists = null;
 		try {
 			tx = session.beginTransaction();
 			listerLists = session.createQuery("FROM ToDoList", ToDoList.class).list(); 
 			tx.commit();
-			System.out.println("we got to the end og the GetLists() quety");
+			System.out.println("we got to the end of the GetLists() query");
 		} catch (HibernateException e) {
-//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -59,7 +58,7 @@ public class HiberFunc {
 	
 	protected static ToDoList getList(int listPK) {
 		// get one list by index/primary key
-		Session session = Lister.factory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		ToDoList listToOpen = null;
 		try {
@@ -67,7 +66,6 @@ public class HiberFunc {
 			listToOpen = session.get(ToDoList.class, listPK); 
 			tx.commit();
 		} catch (HibernateException e) {
-//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
@@ -79,7 +77,7 @@ public class HiberFunc {
 	protected static boolean saveList(ToDoList listToSave) {
 		// save a ToDoList object
 		boolean result = false; 
-		Session session = Lister.factory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -87,7 +85,6 @@ public class HiberFunc {
 			tx.commit();
 			result = true;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
-//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
@@ -99,7 +96,7 @@ public class HiberFunc {
 	protected static boolean deleteList(ToDoList listToDelete) {
 		// save a ToDoList object
 		boolean result = false; 
-		Session session = Lister.factory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -107,7 +104,6 @@ public class HiberFunc {
 			tx.commit();
 			result = true;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
-//		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
@@ -115,5 +111,4 @@ public class HiberFunc {
 		}
 		return result;
 	}
-
 }

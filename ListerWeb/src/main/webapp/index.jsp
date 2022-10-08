@@ -9,14 +9,12 @@
 </head>
 <body>
 
-	<form action="MainMenu" method="GET">
-		<!--  -->
-	</form>
-
 	<form action="MainMenu" method="POST">
-<!-- 		new section -->
+
+<!-- 		new section, this is as of yet, unused -->
 		<input type="hidden" name="listerListsId" value="${listerListsId}" />
 <!-- 		end new section -->
+
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
@@ -27,22 +25,23 @@
 		
 		<p style="text-align: center;">
 			<input type="submit" value="Create New Lister List" name="create_new_list">
-<!-- 			<input type="button" value="Delete Lister List" name="delete_list"> -->
 		</p>
 		
-		<table
+		<table aria-label="List of Lister Lists"
 			style="height: 42px; width: 90%; border-collapse: collapse;
 			margin-left: auto; margin-right: auto;" border="1">
 			
-			<tbody>
+			<thead>
 				<tr style="height: 18px;">
-					<td style="width: 12%; height: 18px; text-align: center;">Open</td>
-					<td style="width: 5%; height: 18px; text-align: center;">ID</td>
-					<td style="width: 35%; height: 18px; text-align: center;">Name</td>
-					<td style="width: 36%; height: 18px; text-align: center;">Created Date</td>
-					<td style="width: 12%; height: 18px; text-align: center;">Delete</td>
+					<th style="width: 12%; height: 18px;">Open</th>
+					<th style="width: 5%; height: 18px;">ID</th>
+					<th style="width: 35%; height: 18px;">Name</th>
+					<th style="width: 36%; height: 18px;">Created Date</th>
+					<th style="width: 12%; height: 18px;">Delete</th>
 				</tr>
-
+			</thead>
+			
+			<tbody>
 				<c:forEach var="toDoList" items="${listerLists}">
 					<tr style="height: 18px;">
 						<td style="width: 12%; height: 18px; text-align: center;">

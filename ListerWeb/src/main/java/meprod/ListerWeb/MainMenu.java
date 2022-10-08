@@ -39,6 +39,7 @@ public class MainMenu extends HttpServlet {
 		request.setAttribute("listerLists", listerLists);
 		
 		// new section
+		// TODO as of right now, I don't think this is being used anywhere
 		// TODO check if this has already been stored and place it in the same place so
 			// we don't create 30,000 copies of this on the server
 		String listerListsId = UUID.randomUUID().toString();
@@ -46,9 +47,6 @@ public class MainMenu extends HttpServlet {
 		request.setAttribute("listerListsId", listerListsId);
 		request.getRequestDispatcher("index.jsp").forward(request, response);		
 		// end new section
-		
-//		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-//		rd.forward(request, response);
 	}
 	
 	@Override
@@ -62,7 +60,6 @@ public class MainMenu extends HttpServlet {
 		}
 		
 		if (request.getParameter("save_new_list") != null) {
-			// TODO stuff to save new list
 			String newListName = request.getParameter("new_list_name");
 			ToDoList newList = new ToDoList(newListName);
 			if (HiberFunc.saveList(newList)) {
@@ -70,13 +67,12 @@ public class MainMenu extends HttpServlet {
 			} else {
 				out.println("error saving: " + newList.toString());
 			}
-			this.doGet(request, response);
+			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
 		}
 
 		if (request.getParameter("open_list") != null) {
 			out.println("open_list_function start");
-			
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
 			return;
@@ -86,31 +82,24 @@ public class MainMenu extends HttpServlet {
 			out.println("MainMenu delete_list\n");
 				
 			String listButton = request.getParameter("delete_list");
-			String listIndex = null;
-			
-//			if (listButton != null) {
-//				int listIndex = Integer.parseInt(listButton.substring(listButton.lastIndexOf(' ') + 1));
-				listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
-//			} else {
-//				listIndex = Integer.toString((int) request.getSession().getAttribute("openListId"));
-//			}
+			String listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
 
 			ToDoList listToDelete = HiberFunc.getList(listIndex);
-				
+
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");
 				return;
-			} else {		// open list, and save again when done
-				out.println("we have OPENED the Lsit!");
-				out.println(listToDelete.toString());
-//				listToOpen.openList();
-//				HiberFunc.saveList(listToOpen);
 			}
+			// open list, and save again when done
+			out.println("we have OPENED the Lsit!");
+			out.println(listToDelete.toString());
 
 			if (listToDelete.isListBlank()) {
+				// list is empty, ok to delete
 				request.setAttribute("listToDelete", listToDelete);
 				request.getSession().setAttribute("deleteListId", listToDelete.getId());
-
+				
+				// forward to page to confirm deletion with user
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
 				rd.forward(request, response);
 				return;
@@ -121,11 +110,11 @@ public class MainMenu extends HttpServlet {
 		
 		if (request.getParameter("confirm_delete_list") != null) {
 			out.println("MainMenu confirm_delete_list\n");
+			
 			int deleteListId = (Integer) request.getSession().getAttribute("deleteListId");	// TODO change this to the list itself
 			ToDoList listToDelete = HiberFunc.getList(deleteListId);
-			
-//			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
-			
+
+
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");
 				return;
@@ -134,25 +123,20 @@ public class MainMenu extends HttpServlet {
 				out.println(listToDelete.toString());
 			}
 
-//			listToDelete.checkOffListItem(listItemIndex);
-			
 			if (HiberFunc.deleteList(listToDelete)) {
 				out.println(listToDelete.toString() + " delete list successful");
 			} else {
 				out.println("error deleting: " + listToDelete.toString());
 			}
-			this.doGet(request, response);
+			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
 		}
-		
 		this.doGet(request, response);
 	}
 
-	
 	@Override
     public String getServletInfo() {
         return "Short description";
     }
-	
 }
 

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Create New List Item</title>
 </head>
 <body>
 
@@ -16,7 +16,6 @@
 
 		<p style="text-align: center; text-decoration: underline;">
 			<strong>Create New List Item</strong>
-<%-- 			<input type="hidden" name="openListId" value="${openListId}" /> --%>
 		</p>
 
 		<p style="text-align: center;">
