@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,12 @@ public class MainMenu extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 4450333060913498431L;
 
+	public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        // TODO maybe do database connection setup here, or load listerLists
+        
+        // TODO make loading screen for inital load
+    }
 
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,6 +56,7 @@ public class MainMenu extends HttpServlet {
 		if (request.getParameter("create_new_list") != null) {
 			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
 			rd.forward(request, response);
+			return;
 		}
 		
 		if (request.getParameter("save_new_list") != null) {
@@ -61,6 +69,7 @@ public class MainMenu extends HttpServlet {
 				out.println("error saving: " + newList.toString());
 			}
 			this.doGet(request, response);
+			return;
 		}
 
 		if (request.getParameter("open_list") != null){
@@ -68,9 +77,11 @@ public class MainMenu extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
+			return;
 		}
 
 		if (request.getParameter("show_lists") != null){
+			// TODO i dont think this is being called from anywhere
 			System.out.println("show list func start");
 			
 			List<ToDoList> listerLists = HiberFunc.getLists();
@@ -82,6 +93,7 @@ public class MainMenu extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 				rd.forward(request, response);
 			}
+			return;
 		}
 		
 		if (request.getParameter("create_list") != null) {
@@ -106,7 +118,7 @@ public class MainMenu extends HttpServlet {
 //			RequestDispatcher rd = request.getRequestDispatcher("EmployeeAdd.jsp");
 //			rd.forward(request, response);
 //		}
-		
+		this.doGet(request, response);
 	}
 
 	
