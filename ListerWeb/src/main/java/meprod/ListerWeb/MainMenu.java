@@ -31,6 +31,8 @@ public class MainMenu extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		out.println("doGet MainMenu");
+		
+		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
 
 		List<ToDoList> listerLists = HiberFunc.getLists();
 		out.println(listerLists.get(0).toString());

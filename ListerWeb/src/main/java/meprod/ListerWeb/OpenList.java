@@ -23,6 +23,8 @@ public class OpenList extends HttpServlet {
             throws ServletException, IOException {
 		
 		out.println("OpenList.doGet function\n");
+		
+		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
 			
 		String listButton = request.getParameter("open_list");
 		String listIndex = null;
@@ -139,7 +141,10 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 		
-		this.doGet(request, response);
+		this.doGet(request, response);		// TODO get request parameter that is sent when MainMenu servlet calls this servlet from
+												// open_list section, then after refactoring open_list.jsp UI setup from this.doGet() into
+												// its own method, have an if (request.getParamete("[that Parameter]" != null) section in here
+												// that will call that open_list.jsp UI setup method
 	}
 
 }

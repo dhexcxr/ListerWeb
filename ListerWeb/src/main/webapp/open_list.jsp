@@ -42,6 +42,12 @@
 				<c:forEach var="listItem" items="${listToOpen.listItems}">
 					<tr style="height: 18px;">
 						<td style="width: 8%; height: 18px; text-align: center;">
+<%-- 							use some JS here: if ${listItem.done} === true { --%>
+<!-- 													[display "Done" or "Checked off"] -->
+<!-- 													} else { -->
+<!-- 													[display the "Check off...] button" -->
+<!-- 													} -->
+<!-- 							then we can remove check for Done in Servlet and remote Complete column in this table -->
 							<input type="submit" value="Check Off ${listItem.toDoListItemNum}" name="check_off_list_item">
 						</td>
 						<td style="width: 3%; height: 18px; text-align: center;">${listItem.toDoListItemNum}</td>
