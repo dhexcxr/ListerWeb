@@ -132,6 +132,7 @@ public class OpenList extends HttpServlet {
 		}
 		
 		if (request.getParameter("back_to_main_menu") != null) {
+			request.getSession().removeAttribute("openListId");		// remove current open list ID when we leave the List Menu
 			RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
 			rd.forward(request, response);
 			return;
