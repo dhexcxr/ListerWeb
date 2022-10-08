@@ -95,6 +95,7 @@ public class OpenList extends HttpServlet {
 			if(currentOpenList.isListItemComplete(listItemIndex)) {
 				// TODO tell user List Item is already done
 			} else {
+				request.getSession().setAttribute("listItemIndex", listItemIndex);		// TODO remove this session attribute
 				request.setAttribute("listItemName", currentOpenList.getListItemName(listItemIndex));		
 				RequestDispatcher rd = request.getRequestDispatcher("complete_list_item.jsp");
 				rd.forward(request, response);
