@@ -82,6 +82,46 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 		
+		if (request.getParameter("check_off_list_item") != null) {			
+			out.println("OpenList check_off_list_item function\n");
+			
+			String listItemButton = request.getParameter("check_off_list_item");
+			String listItemIndex = listItemButton.substring(listItemButton.lastIndexOf(' ') + 1);
+			
+			// TODO get listItem here, check if completed already, if it is dynamically create small page saying so
+				// if it is not save it to session and call complete_list_item.jsp
+							
+			request.getSession().setAttribute("listItemIndex", listItemIndex);		
+			RequestDispatcher rd = request.getRequestDispatcher("complete_list_item.jsp");
+			rd.forward(request, response);
+			return;
+		}
+		
+		if (request.getParameter("confirm_check_off_list_item") != null) {
+			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+			ToDoList currentOpenList = HiberFunc.getList(openListId);
+			
+			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
+			
+			if (currentOpenList == null) {		// if something went wrong
+				out.println("Database error...\n");
+				return;
+			} else {		// open list, and save again when done
+				out.println("we have OPENED the Lsit!");
+				out.println(currentOpenList.toString());
+			}
+
+			currentOpenList.checkOffListItem(listItemIndex);
+			
+			if (HiberFunc.saveList(currentOpenList)) {
+				out.println(currentOpenList.toString() + " save with new List Item successful");
+			} else {
+				out.println("error saving: " + currentOpenList.toString());
+			}
+			this.doGet(request, response);
+			return;
+		}
+		
 		if (request.getParameter("back_to_main_menu") != null) {
 			RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
 			rd.forward(request, response);

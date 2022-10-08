@@ -209,35 +209,12 @@ public class ToDoList implements Serializable{
 //		}
 	}
 
-	private void checkOffListItem() {
-//		if(showListItems()) {
-//			out.print("Which To Do item would you like to check off? ");
-//			String toDoItemIndexInput = keyboard.nextLine();
-//
-//			int toDoItemIndex = Integer.parseInt(toDoItemIndexInput);
-//
-//			ListIterator<ListItem> checkOffIterator = listItems.listIterator(toDoItemIndex);
-//			ListItem listItemToCheckOff = checkOffIterator.previous();
-//
-//			while (true) {
-//				out.print("Check off To Do item: " + listItemToCheckOff.toString() + "? [Y/N] ");
-//				String checkOffConfirmation = keyboard.nextLine();
-//
-//				switch (checkOffConfirmation.toUpperCase()) {
-//					case "Y": {
-//						listItemToCheckOff.checkOffListItem();
-//						out.println(listItemToCheckOff.getListItemName() + " checked off...\n");
-//						return;
-//					}
-//					case "N": {
-//						out.println(listItemToCheckOff.getListItemName() + " not checked off...\n");
-//						return;
-//					}
-//					default:
-//						out.println("Invalid selection: " + checkOffConfirmation + "\n\n");
-//				}
-//			}
-//		}
+	protected void checkOffListItem(String listItemIndex) {
+		int toDoItemIndex = Integer.parseInt(listItemIndex);
+		ListItem listItemToCheckOff = listItems.get(toDoItemIndex - 1);
+		listItemToCheckOff.checkOffListItem();
+		out.println(listItemToCheckOff.getListItemName() + " checked off...\n");
+		return;
 	}
 
 	@Override
