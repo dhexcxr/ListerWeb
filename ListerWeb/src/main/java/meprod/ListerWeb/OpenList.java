@@ -90,11 +90,20 @@ public class OpenList extends HttpServlet {
 			
 			// TODO get listItem here, check if completed already, if it is dynamically create small page saying so
 				// if it is not save it to session and call complete_list_item.jsp
+			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+			ToDoList currentOpenList = HiberFunc.getList(openListId);
+			if(currentOpenList.isListItemComplete(listItemIndex)) {
+				// TODO tell user List Item is already done
+			} else {
+				request.getSession().setAttribute("listItemIndex", listItemIndex);		
+				RequestDispatcher rd = request.getRequestDispatcher("complete_list_item.jsp");
+				rd.forward(request, response);
+				return;
+			}
+			
 							
-			request.getSession().setAttribute("listItemIndex", listItemIndex);		
-			RequestDispatcher rd = request.getRequestDispatcher("complete_list_item.jsp");
-			rd.forward(request, response);
-			return;
+			
+			
 		}
 		
 		if (request.getParameter("confirm_check_off_list_item") != null) {

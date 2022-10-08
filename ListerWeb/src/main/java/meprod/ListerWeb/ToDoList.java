@@ -216,6 +216,11 @@ public class ToDoList implements Serializable{
 		out.println(listItemToCheckOff.getListItemName() + " checked off...\n");
 		return;
 	}
+	
+	protected boolean isListItemComplete(String listItemIndex) {
+		int toDoItemIndex = Integer.parseInt(listItemIndex);
+		return listItems.get(toDoItemIndex - 1).isDone();
+	}
 
 	@Override
 	public String toString() {
