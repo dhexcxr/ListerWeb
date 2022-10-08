@@ -41,7 +41,7 @@ public class ListItem implements Serializable {
 		setListItemName(toDoItem);
 		setCreationDateTime(new Date(System.currentTimeMillis()));
 		setDone(false);
-		setFinishedDateTime(new Date());		// TODO i think this makes a bad date
+		setFinishedDateTime(null);
 		setToDoListItemNum(toDoListItemNum);
 	}
 
