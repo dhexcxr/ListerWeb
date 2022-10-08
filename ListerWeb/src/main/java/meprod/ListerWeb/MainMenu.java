@@ -74,11 +74,74 @@ public class MainMenu extends HttpServlet {
 			return;
 		}
 
-		if (request.getParameter("open_list") != null){
+		if (request.getParameter("open_list") != null) {
 			out.println("open_list_function start");
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
+			return;
+		}
+		
+		if (request.getParameter("delete_list") != null) {
+			out.println("MainMenu delete_list\n");
+				
+			String listButton = request.getParameter("delete_list");
+			String listIndex = null;
+			
+//			if (listButton != null) {
+//				int listIndex = Integer.parseInt(listButton.substring(listButton.lastIndexOf(' ') + 1));
+				listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
+//			} else {
+//				listIndex = Integer.toString((int) request.getSession().getAttribute("openListId"));
+//			}
+
+			ToDoList listToDelete = HiberFunc.getList(listIndex);
+				
+			if (listToDelete == null) {		// if something went wrong
+				out.println("Database error...\n");
+				return;
+			} else {		// open list, and save again when done
+				out.println("we have OPENED the Lsit!");
+				out.println(listToDelete.toString());
+//				listToOpen.openList();
+//				HiberFunc.saveList(listToOpen);
+			}
+
+			if (listToDelete.isListBlank()) {
+				request.setAttribute("listToDelete", listToDelete);
+				request.getSession().setAttribute("deleteListId", listToDelete.getId());
+
+				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
+				rd.forward(request, response);
+				return;
+			} else {
+				// TODO tell user they can't delete a list with items on it
+			}	
+		}
+		
+		if (request.getParameter("confirm_delete_list") != null) {
+			out.println("MainMenu confirm_delete_list\n");
+			int deleteListId = (Integer) request.getSession().getAttribute("deleteListId");	// TODO change this to the list itself
+			ToDoList listToDelete = HiberFunc.getList(deleteListId);
+			
+//			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
+			
+			if (listToDelete == null) {		// if something went wrong
+				out.println("Database error...\n");
+				return;
+			} else {		// open list, and save again when done
+				out.println("we have OPENED the Lsit!");
+				out.println(listToDelete.toString());
+			}
+
+//			listToDelete.checkOffListItem(listItemIndex);
+			
+			if (HiberFunc.deleteList(listToDelete)) {
+				out.println(listToDelete.toString() + " delete list successful");
+			} else {
+				out.println("error deleting: " + listToDelete.toString());
+			}
+			this.doGet(request, response);
 			return;
 		}
 		

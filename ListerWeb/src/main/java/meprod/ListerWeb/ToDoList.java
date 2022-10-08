@@ -200,6 +200,10 @@ public class ToDoList implements Serializable{
 		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
 		return listItems.get(toDoItemIndex).getListItemName();
 	}
+	
+	protected boolean isListBlank() {
+		return this.listItems.isEmpty();
+	}
 
 	@Override
 	public String toString() {
