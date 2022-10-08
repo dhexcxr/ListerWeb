@@ -84,6 +84,7 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 		
+		// CHECK OFF
 		if (request.getParameter("check_off_list_item") != null) {			
 			out.println("OpenList check_off_list_item function\n");
 			
@@ -133,6 +134,58 @@ public class OpenList extends HttpServlet {
 			this.doGet(request, response);
 			return;
 		}
+		// END CHECK OFF
+		
+		
+		// DELETE
+		
+		if (request.getParameter("delete_list_item") != null) {			
+			out.println("OpenList delete_list_item function\n");
+			
+			String listItemButton = request.getParameter("delete_list_item");
+			String listItemIndex = listItemButton.substring(listItemButton.lastIndexOf(' ') + 1);
+			
+			// TODO get listItem here, check if completed already, if it is dynamically create small page saying so
+				// if it is not save it to session and call delete_list_item.jsp
+			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+			ToDoList currentOpenList = HiberFunc.getList(openListId);
+			if(currentOpenList.isListItemComplete(listItemIndex)) {
+				// TODO tell user List Item is complete and cannot be deleted
+			} else {
+				request.getSession().setAttribute("listItemIndex", listItemIndex);		// TODO remove this session attribute
+				request.setAttribute("listItemName", currentOpenList.getListItemName(listItemIndex));		
+				RequestDispatcher rd = request.getRequestDispatcher("delete_list_item.jsp");
+				rd.forward(request, response);
+				return;
+			}			
+		}
+		
+		if (request.getParameter("confirm_delete_list_item") != null) {
+			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+			ToDoList currentOpenList = HiberFunc.getList(openListId);
+			
+			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
+			
+			if (currentOpenList == null) {		// if something went wrong
+				out.println("Database error...\n");
+				return;
+			} else {		// open list, and save again when done
+				out.println("we have OPENED the Lsit!");
+				out.println(currentOpenList.toString());
+			}
+
+			currentOpenList.deleteListItem(listItemIndex);
+			
+			if (HiberFunc.saveList(currentOpenList)) {
+				out.println(currentOpenList.toString() + " save after deleting new List Item successful");
+			} else {
+				out.println("error saving: " + currentOpenList.toString());
+			}
+			this.doGet(request, response);
+			return;
+		}
+		
+		// END DELETE
 		
 		if (request.getParameter("back_to_main_menu") != null) {
 			request.getSession().removeAttribute("openListId");		// remove current open list ID when we leave the List Menu

@@ -173,40 +173,9 @@ public class ToDoList implements Serializable{
 		out.println("New To Do item created...\n"); // TODO include To Do item name
 	}
 
-	private void deleteListItem() {
-//		if (showListItems()) {
-//			out.print("Which list would you like to remove? ");
-//			String toDoItemIndexInput = keyboard.nextLine();
-//
-//			int toDoItemIndex = Integer.parseInt(toDoItemIndexInput);
-//
-//			ListIterator<ListItem> deleteIterator = listItems.listIterator(toDoItemIndex);
-//			ListItem listItemToDelete = deleteIterator.previous();
-//
-//			if (listItemToDelete.isDone()) {
-//				out.println("Cannot delete a completed To Do List item...\n");
-//				return;
-//			}
-//
-//			while (true) {
-//				out.print("Delete To Do item: " + listItemToDelete.toString() + "? [Y/N] ");
-//				String deleteConfirmation = keyboard.nextLine();
-//
-//				switch (deleteConfirmation.toUpperCase()) {
-//					case "Y": {
-//						deleteIterator.remove();
-//						out.println(listItemToDelete.getListItemName() + " deleted...\n");
-//						return;
-//					}
-//					case "N": {
-//						out.println(listItemToDelete.getListItemName() + " not deleted...\n");
-//						return;
-//					}
-//					default:
-//						out.println("Invalid selection: " + deleteConfirmation + "\n\n");
-//				}
-//			}
-//		}
+	protected void deleteListItem(String listItemIndex) {
+		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
+		listItems.remove(toDoItemIndex);
 	}
 
 	protected void checkOffListItem(String listItemIndex) {
