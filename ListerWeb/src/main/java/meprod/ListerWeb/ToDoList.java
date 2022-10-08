@@ -210,16 +210,26 @@ public class ToDoList implements Serializable{
 	}
 
 	protected void checkOffListItem(String listItemIndex) {
-		int toDoItemIndex = Integer.parseInt(listItemIndex);
-		ListItem listItemToCheckOff = listItems.get(toDoItemIndex - 1);
+		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
+		ListItem listItemToCheckOff = listItems.get(toDoItemIndex);
 		listItemToCheckOff.checkOffListItem();
 		out.println(listItemToCheckOff.getListItemName() + " checked off...\n");
 		return;
 	}
 	
 	protected boolean isListItemComplete(String listItemIndex) {
-		int toDoItemIndex = Integer.parseInt(listItemIndex);
-		return listItems.get(toDoItemIndex - 1).isDone();
+		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
+		return listItems.get(toDoItemIndex).isDone();
+	}
+	
+	protected ListItem getListItem(String listItemIndex) {
+		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
+		return listItems.get(toDoItemIndex);
+	}
+	
+	protected String getListItemName(String listItemIndex) {
+		int toDoItemIndex = Integer.parseInt(listItemIndex) - 1;
+		return listItems.get(toDoItemIndex).getListItemName();
 	}
 
 	@Override

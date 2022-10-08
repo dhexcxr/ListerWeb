@@ -18,7 +18,7 @@
 		</p>
 
 		<p style="text-align: center;">
-			// TODO get list name
+			${listItemName}
 		</p>
 
 		<p style="text-align: center;">
