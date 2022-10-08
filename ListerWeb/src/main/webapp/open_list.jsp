@@ -57,12 +57,14 @@
 			</tbody>
 
 		</table>
-
+		
+		<p style="text-align: center;">
+			<input type=submit value="Back to Main Menu" name="back_to_main_menu">
+<!-- 			TODO make Back button always go back to main menu, not directly back
+					if for instance the user just made a new list item, we don't want to go back to the New List Item screen
+				also, remove openListId attribute-->
+		</p>
 	</form>
-	
-	<p style="text-align: center;">
-		<input type=button value="Back" onCLick="history.back()">
-	</p>
 
 </body>
 </html>

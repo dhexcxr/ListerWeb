@@ -82,6 +82,12 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 		
+		if (request.getParameter("back_to_main_menu") != null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
+			rd.forward(request, response);
+			return;
+		}
+		
 		this.doGet(request, response);
 	}
 
