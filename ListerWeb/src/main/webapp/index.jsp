@@ -51,7 +51,9 @@
 						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.listName}</td>
 						<td style="width: 36%; height: 18px; text-align: center;">${toDoList.creationDateTime}</td>
 						<td style="width: 12%; height: 18px; text-align: center;">
-							<input type="submit" value="Delete ${toDoList.id}" name="delete_list">
+							<c:if test="${toDoList.isListBlank()=='true'}">
+        						<input type="submit" value="Delete ${toDoList.id}" name="delete_list">
+        					</c:if>
 						</td>
 					</tr>
 				</c:forEach>
