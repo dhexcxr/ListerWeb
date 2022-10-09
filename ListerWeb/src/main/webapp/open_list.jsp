@@ -28,7 +28,6 @@
 
 			<thead>
 				<tr style="height: 18px;">
-					<th style="width: 8%; height: 18px; text-align: center;">Check Off</th>
 					<th style="width: 3%; height: 18px; text-align: center;">ID</th>
 					<th style="width: 21%; height: 18px; text-align: center;">List Item Name</th>
 					<th style="width: 25%; height: 18px; text-align: center;">Created Date</th>
@@ -41,22 +40,25 @@
 			<tbody>
 				<c:forEach var="listItem" items="${listToOpen.listItems}">
 					<tr style="height: 18px;">
-						<td style="width: 8%; height: 18px; text-align: center;">
-<%-- 							use some JS here: if ${listItem.done} === true { --%>
-<!-- 													[display "Done" or "Checked off"] -->
-<!-- 													} else { -->
-<!-- 													[display the "Check off... button] " -->
-<!-- 													} -->
-<!-- 							then we can remove check for Done in Servlet and remote Complete column in this table -->
-							<input type="submit" value="Check Off ${listItem.toDoListItemNum}" name="check_off_list_item">
-						</td>
+						
 						<td style="width: 3%; height: 18px; text-align: center;">${listItem.toDoListItemNum}</td>
 						<td style="width: 21%; height: 18px; text-align: center;">${listItem.listItemName}</td>
 						<td style="width: 25%; height: 18px; text-align: center;">${listItem.creationDateTime}</td>
-						<td style="width: 20%; height: 18px; text-align: center;">${listItem.done}</td>
+						<td style="width: 20%; height: 18px; text-align: center;">
+							<c:choose>
+								<c:when test="${listItem.done=='false'}">
+									<input type="submit" value="Check Off ${listItem.toDoListItemNum}" name="check_off_list_item">
+								</c:when>
+								<c:otherwise>
+									All Done!
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td style="width: 25%; height: 18px; text-align: center;">${listItem.finishedDateTime}</td>
 						<td style="width: 8%; height: 18px; text-align: center;">
-							<input type="submit" value="Delete ${listItem.toDoListItemNum}" name="delete_list_item">
+							<c:if test="${listItem.done=='false'}">
+        						<input type="submit" value="Delete ${listItem.toDoListItemNum}" name="delete_list_item">
+        					</c:if>
 						</td>
 					</tr>
 				</c:forEach>
