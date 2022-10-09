@@ -120,7 +120,7 @@ public class ToDoList implements Serializable{
 		return listItems.get(toDoItemIndex).getListItemName();
 	}
 	
-	protected boolean isListBlank() {
+	public boolean isListBlank() {
 		return this.listItems.isEmpty();
 	}
 
