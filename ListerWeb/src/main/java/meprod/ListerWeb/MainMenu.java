@@ -103,9 +103,7 @@ public class MainMenu extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
 				rd.forward(request, response);
 				return;
-			} else {
-				// TODO tell user they can't delete a list with items on it
-			}	
+			}
 		}
 		
 		if (request.getParameter("confirm_delete_list") != null) {
