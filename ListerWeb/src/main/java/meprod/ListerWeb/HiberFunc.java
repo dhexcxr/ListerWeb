@@ -15,13 +15,9 @@ public class HiberFunc {
 	private HiberFunc() {};
 	
 	private static SessionFactory sessionFactory;
-
-	static {
-		out.println("static instant of HiberFunc");
-		openDbConnection();
-	}
 	
-	private static void openDbConnection() {
+
+	protected static void openDbConnection() {
 		// attempt to set up session factory
 		try {
 			sessionFactory = new Configuration().configure().buildSessionFactory();

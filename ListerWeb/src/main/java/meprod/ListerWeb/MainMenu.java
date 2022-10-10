@@ -19,35 +19,30 @@ public class MainMenu extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 4450333060913498431L;
+	private static List<ToDoList> listerLists;
 
 	public void init(ServletConfig config) throws ServletException {
         super.init(config);
         // TODO maybe do database connection setup here, or load listerLists
-        
-        // TODO make loading screen for inital load
-    }
+        HiberFunc.openDbConnection();
+        listerLists = HiberFunc.getLists();
 
-	@Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-		out.println("doGet MainMenu");
-		
-		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
-
-		List<ToDoList> listerLists = HiberFunc.getLists();
-		out.println(listerLists.get(0).toString());
-		request.setAttribute("listerLists", listerLists);
-		
 		// new section
 		// TODO as of right now, I don't think this is being used anywhere
 		// TODO check if this has already been stored and place it in the same place so
 			// we don't create 30,000 copies of this on the server
 //		String listerListsId = UUID.randomUUID().toString();
 //		request.getSession().setAttribute(listerListsId, listerLists);
-//		request.setAttribute("listerListsId", listerListsId);
 		// end new section
-		
-		request.getRequestDispatcher("index.jsp").forward(request, response);		
+    }
+
+	@Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+		out.println("doGet MainMenu");
+		out.println(listerLists.get(0).toString());
+		request.setAttribute("listerLists", listerLists);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	
 	@Override
