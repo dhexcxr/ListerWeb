@@ -45,8 +45,9 @@ public class MainMenu extends HttpServlet {
 //		String listerListsId = UUID.randomUUID().toString();
 //		request.getSession().setAttribute(listerListsId, listerLists);
 //		request.setAttribute("listerListsId", listerListsId);
-//		request.getRequestDispatcher("index.jsp").forward(request, response);		
 		// end new section
+		
+		request.getRequestDispatcher("index.jsp").forward(request, response);		
 	}
 	
 	@Override
