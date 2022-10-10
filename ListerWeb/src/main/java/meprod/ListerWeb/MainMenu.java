@@ -40,6 +40,11 @@ public class MainMenu extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		out.println("doGet MainMenu");
+		sendToMainIndex(request, response);
+	}
+	
+	private void sendToMainIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		out.println("MainMenu.sendToMainIndex");
 		out.println(listerLists.get(0).toString());
 		request.setAttribute("listerLists", listerLists);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -55,7 +60,6 @@ public class MainMenu extends HttpServlet {
 		if (action.equals("create_new")) {
 			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
 			rd.forward(request, response);
-			return;
 		}
 		
 		if (action.equals("save_new_list")) {
@@ -66,15 +70,12 @@ public class MainMenu extends HttpServlet {
 			} else {
 				out.println("error saving: " + newList.toString());
 			}
-			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
-			return;
 		}
 		
 		if (action.equals("open")) {
 			out.println("open_list_function start");
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
-			return;
 		}
 		
 		if (action.equals("delete")) {
@@ -97,7 +98,6 @@ public class MainMenu extends HttpServlet {
 				// forward to page to confirm deletion with user
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
 				rd.forward(request, response);
-				return;
 			}
 		}
 		
@@ -119,10 +119,8 @@ public class MainMenu extends HttpServlet {
 			} else {
 				out.println("error deleting: " + listToDelete.toString());
 			}
-			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
-			return;
 		}
-		this.doGet(request, response);
+		this.sendToMainIndex(request, response);
 	}
 
 	@Override
