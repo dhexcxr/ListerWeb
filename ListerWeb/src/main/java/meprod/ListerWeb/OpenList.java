@@ -25,8 +25,7 @@ public class OpenList extends HttpServlet {
 		out.println("OpenList.doGet function\n");
 		
 		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
-			
-		String listButton = request.getParameter("open_list");
+
 		String listIndex = request.getParameter("selectedList");
 		
 		ToDoList listToOpen = HiberFunc.getList(listIndex);
