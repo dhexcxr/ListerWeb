@@ -4,12 +4,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="buttonAction.js"></script>
 <meta charset="ISO-8859-1">
 <title>ListerWeb</title>
 </head>
 <body>
 
-	<form action="MainMenu" method="POST">
+	<form name="callServlet" action="MainMenu" method="POST">
+	
+	<input type="hidden" name="action" id="action" value=""/>
+	<input type="hidden" name="selectedList" id="selectedList" value=""/>
+	<input type="hidden" name="selectedListItem" id="selectedListItem" value=""/>
 
 <!-- 		new section, this is as of yet, unused -->
 		<input type="hidden" name="listerListsId" value="${listerListsId}" />
@@ -24,7 +29,7 @@
 		</p>
 		
 		<p style="text-align: center;">
-			<input type="submit" value="Create New Lister List" name="create_new_list">
+			<input type="button" value="Create New Lister List" name="create_new_list" onClick="button('create_new', -1)">
 		</p>
 		
 		<table aria-label="List of Lister Lists"
@@ -34,8 +39,7 @@
 			<thead>
 				<tr style="height: 18px;">
 					<th style="width: 12%; height: 18px;">Open</th>
-					<th style="width: 5%; height: 18px;">ID</th>
-					<th style="width: 35%; height: 18px;">Name</th>
+					<th style="width: 40%; height: 18px;">Name</th>
 					<th style="width: 36%; height: 18px;">Created Date</th>
 					<th style="width: 12%; height: 18px;">Delete</th>
 				</tr>
@@ -45,22 +49,19 @@
 				<c:forEach var="toDoList" items="${listerLists}">
 					<tr style="height: 18px;">
 						<td style="width: 12%; height: 18px; text-align: center;">
-							<input type="submit" value="Open ${toDoList.id}" name="open_list">
+						<input type="button" value="Open" name="open_list" onClick="button('open', ${toDoList.id})">
 						</td>
-						<td style="width: 5%; height: 18px; text-align: center;">${toDoList.id}</td>
-						<td style="width: 35%; height: 18px; text-align: center;">${toDoList.listName}</td>
+						<td style="width: 40%; height: 18px; text-align: center;">${toDoList.listName}</td>
 						<td style="width: 36%; height: 18px; text-align: center;">${toDoList.creationDateTime}</td>
 						<td style="width: 12%; height: 18px; text-align: center;">
 							<c:if test="${toDoList.isListBlank()=='true'}">
-        						<input type="submit" value="Delete ${toDoList.id}" name="delete_list">
+        						<input type="button" value="Delete" name="delete_list" onClick="button('delete', ${toDoList.id})">
         					</c:if>
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
-			
 		</table>
-			
 	</form>
 
 </body>

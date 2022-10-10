@@ -4,12 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="buttonAction.js"></script>
 <meta charset="ISO-8859-1">
 <title>${listToOpen.listName} Menu</title>
 </head>
 <body>
 
-	<form action="OpenList" method="POST">
+	<form name="callServlet" action="OpenList" method="POST">
+		
+		<input type="hidden" name="action" id="action" value=""/>
+		<input type="hidden" name="selectedList" id="selectedList" value=""/>
+		<input type="hidden" name="selectedListItem" id="selectedListItem" value=""/>
+		
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
@@ -19,7 +25,7 @@
 		</p>
 
 		<p style="text-align: center;">
-			<input type="submit" value="Create Lister List Item" name="create_new_list_item">
+			<input type="button" value="Create Lister List Item" name="create_new_list_item" onClick="button('create_new_list_item', ${listToOpen.id})">
 		</p>
 
 		<table aria-label="List of a Lister List's Lister Items"
@@ -28,10 +34,9 @@
 
 			<thead>
 				<tr style="height: 18px;">
-					<th style="width: 3%; height: 18px; text-align: center;">ID</th>
-					<th style="width: 21%; height: 18px; text-align: center;">List Item Name</th>
+					<th style="width: 25%; height: 18px; text-align: center;">List Item Name</th>
 					<th style="width: 25%; height: 18px; text-align: center;">Created Date</th>
-					<th style="width: 20%; height: 18px; text-align: center;">Complete</th>
+					<th style="width: 17%; height: 18px; text-align: center;">Complete</th>
 					<th style="width: 25%; height: 18px; text-align: center;">Completed Date</th>
 					<th style="width: 8%; height: 18px; text-align: center;">Delete</th>
 				</tr>
@@ -40,14 +45,12 @@
 			<tbody>
 				<c:forEach var="listItem" items="${listToOpen.listItems}">
 					<tr style="height: 18px;">
-						
-						<td style="width: 3%; height: 18px; text-align: center;">${listItem.toDoListItemNum}</td>
-						<td style="width: 21%; height: 18px; text-align: center;">${listItem.listItemName}</td>
+						<td style="width: 25%; height: 18px; text-align: center;">${listItem.listItemName}</td>
 						<td style="width: 25%; height: 18px; text-align: center;">${listItem.creationDateTime}</td>
-						<td style="width: 20%; height: 18px; text-align: center;">
+						<td style="width: 17%; height: 18px; text-align: center;">
 							<c:choose>
 								<c:when test="${listItem.done=='false'}">
-									<input type="submit" value="Check Off ${listItem.toDoListItemNum}" name="check_off_list_item">
+									<input type="button" value="Check Off" name="check_off_list_item" onClick="button('check_off', ${listToOpen.id}, ${listItem.toDoListItemNum})">
 								</c:when>
 								<c:otherwise>
 									All Done!
@@ -57,7 +60,7 @@
 						<td style="width: 25%; height: 18px; text-align: center;">${listItem.finishedDateTime}</td>
 						<td style="width: 8%; height: 18px; text-align: center;">
 							<c:if test="${listItem.done=='false'}">
-        						<input type="submit" value="Delete ${listItem.toDoListItemNum}" name="delete_list_item">
+									<input type="button" value="Delete" name="delete_list_item" onClick="button('delete', ${listToOpen.id}, ${listItem.toDoListItemNum})">
         					</c:if>
 						</td>
 					</tr>

@@ -3,12 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="buttonAction.js"></script>
 <meta charset="ISO-8859-1">
 <title>Delete List ${listToDelete.listName}</title>
 </head>
 <body>
 
-	<form action="MainMenu" method="POST">
+	<form name="callServlet" action="MainMenu" method="POST">
+	
+		<input type="hidden" name="action" id="action" value=""/>
+		<input type="hidden" name="selectedList" id="selectedList" value=""/>
+		<input type="hidden" name="selectedListItem" id="selectedListItem" value=""/>
+	
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
@@ -22,10 +28,9 @@
 		</p>
 
 		<p style="text-align: center;">
-			<input type="submit" value="Delete List" name="confirm_delete_list" />
+			<input type="button" value="Delete List" name="confirm_delete_list" onClick="button('confirm_delete', ${listToDelete.id})">
 			<input type="button" value="Back" onCLick="history.back()" />
 		</p>
-
 	</form>
 
 </body>

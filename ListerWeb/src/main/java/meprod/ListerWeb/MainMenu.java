@@ -4,7 +4,7 @@ import static java.lang.System.out;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+//import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -42,10 +42,10 @@ public class MainMenu extends HttpServlet {
 		// TODO as of right now, I don't think this is being used anywhere
 		// TODO check if this has already been stored and place it in the same place so
 			// we don't create 30,000 copies of this on the server
-		String listerListsId = UUID.randomUUID().toString();
-		request.getSession().setAttribute(listerListsId, listerLists);
-		request.setAttribute("listerListsId", listerListsId);
-		request.getRequestDispatcher("index.jsp").forward(request, response);		
+//		String listerListsId = UUID.randomUUID().toString();
+//		request.getSession().setAttribute(listerListsId, listerLists);
+//		request.setAttribute("listerListsId", listerListsId);
+//		request.getRequestDispatcher("index.jsp").forward(request, response);		
 		// end new section
 	}
 	
@@ -53,13 +53,16 @@ public class MainMenu extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		
-		if (request.getParameter("create_new_list") != null) {
+		String action = request.getParameter("action");
+		String listIndex = request.getParameter("selectedList");
+
+		if (action.equals("create_new")) {
 			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
 			rd.forward(request, response);
 			return;
 		}
 		
-		if (request.getParameter("save_new_list") != null) {
+		if (action.equals("save_new_list")) {
 			String newListName = request.getParameter("new_list_name");
 			ToDoList newList = new ToDoList(newListName);
 			if (HiberFunc.saveList(newList)) {
@@ -70,19 +73,16 @@ public class MainMenu extends HttpServlet {
 			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
 		}
-
-		if (request.getParameter("open_list") != null) {
+		
+		if (action.equals("open")) {
 			out.println("open_list_function start");
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
 			return;
 		}
 		
-		if (request.getParameter("delete_list") != null) {
+		if (action.equals("delete")) {
 			out.println("MainMenu delete_list\n");
-				
-			String listButton = request.getParameter("delete_list");
-			String listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
 
 			ToDoList listToDelete = HiberFunc.getList(listIndex);
 
@@ -97,7 +97,6 @@ public class MainMenu extends HttpServlet {
 			if (listToDelete.isListBlank()) {
 				// list is empty, ok to delete
 				request.setAttribute("listToDelete", listToDelete);
-				request.getSession().setAttribute("deleteListId", listToDelete.getId());
 				
 				// forward to page to confirm deletion with user
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
@@ -106,12 +105,10 @@ public class MainMenu extends HttpServlet {
 			}
 		}
 		
-		if (request.getParameter("confirm_delete_list") != null) {
+		if (action.equals("confirm_delete")) {		
 			out.println("MainMenu confirm_delete_list\n");
 			
-			int deleteListId = (Integer) request.getSession().getAttribute("deleteListId");	// TODO change this to the list itself
-			ToDoList listToDelete = HiberFunc.getList(deleteListId);
-
+			ToDoList listToDelete = HiberFunc.getList(listIndex);
 
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");

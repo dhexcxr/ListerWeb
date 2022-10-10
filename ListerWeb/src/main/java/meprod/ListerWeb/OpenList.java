@@ -27,15 +27,8 @@ public class OpenList extends HttpServlet {
 		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
 			
 		String listButton = request.getParameter("open_list");
-		String listIndex = null;
+		String listIndex = request.getParameter("selectedList");
 		
-		if (listButton == null) {
-			// if this method was called directly instead of through a button press, list button will be null
-			listIndex = Integer.toString((int) request.getSession().getAttribute("openListId"));	// get index from session attribute
-		} else {
-			listIndex = listButton.substring(listButton.lastIndexOf(' ') + 1);
-		}
-
 		ToDoList listToOpen = HiberFunc.getList(listIndex);
 			
 		if (listToOpen == null) {		// if something went wrong
@@ -61,16 +54,21 @@ public class OpenList extends HttpServlet {
             throws ServletException, IOException {
 		out.println("OpenList.doPost");
 		
-		if (request.getParameter("create_new_list_item") != null) {
+		String action = request.getParameter("action");
+		String selectedList = request.getParameter("selectedList");
+		String selectedListItem = request.getParameter("selectedListItem");
+
+		if (action.equals("create_new_list_item")) {
+			request.setAttribute("currentListId", selectedList);
 			RequestDispatcher rd = request.getRequestDispatcher("new_list_item.jsp");
 			rd.forward(request, response);
 			return;
 		}
 		
-		if (request.getParameter("save_new_list_item") != null) {
-			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+		if (action.equals("save_new_list_item")) {
+//			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			String newListName = request.getParameter("new_list_item_name");
-			ToDoList openList = HiberFunc.getList(openListId);
+			ToDoList openList = HiberFunc.getList(selectedList);
 			openList.addListItem(newListName);
 			if (HiberFunc.saveList(openList)) {
 				out.println(openList.toString() + " save with new List Item successful");
@@ -81,31 +79,29 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 		
-		if (request.getParameter("check_off_list_item") != null) {			
+		if (action.equals("check_off")) {
 			out.println("OpenList check_off_list_item function\n");
-
-			String listItemButton = request.getParameter("check_off_list_item");
-			String listItemIndex = listItemButton.substring(listItemButton.lastIndexOf(' ') + 1);
 
 			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
-			if(currentOpenList.isListItemComplete(listItemIndex)) {
+			if(currentOpenList.isListItemComplete(selectedListItem)) {
 				// TODO tell user List Item is already done
 					// maybe use request.out.systemWriter() or whatever
 			} else {
-				request.getSession().setAttribute("listItemIndex", listItemIndex);		// TODO remove this session attribute
-				request.setAttribute("listItemName", currentOpenList.getListItemName(listItemIndex));		
+				request.getSession().setAttribute("listItemIndex", selectedListItem);		// TODO remove this session attribute	
+				request.setAttribute("listItemToCheckOff", currentOpenList.getListItem(selectedListItem));
+				request.setAttribute("currentList", currentOpenList);
 				RequestDispatcher rd = request.getRequestDispatcher("complete_list_item.jsp");
 				rd.forward(request, response);
 				return;
 			}			
 		}
 		
-		if (request.getParameter("confirm_check_off_list_item") != null) {
-			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
+		if (action.equals("confirm_check_off_list_item")) {
+			int openListId = Integer.parseInt(request.getParameter("selectedList"));	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
 			
-			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
+			String listItemIndex2 = request.getParameter("selectedListItem");
 			
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error...\n");
@@ -115,7 +111,7 @@ public class OpenList extends HttpServlet {
 			out.println("we have OPENED the Lsit!");
 			out.println(currentOpenList.toString());
 			
-			currentOpenList.checkOffListItem(listItemIndex);
+			currentOpenList.checkOffListItem(listItemIndex2);
 			
 			if (HiberFunc.saveList(currentOpenList)) {
 				out.println(currentOpenList.toString() + " save with check off List Item successful");
@@ -126,31 +122,27 @@ public class OpenList extends HttpServlet {
 			return;
 		}
 
-		if (request.getParameter("delete_list_item") != null) {			
+		if (action.equals("delete")) {
 			out.println("OpenList delete_list_item function\n");
-			
-			String listItemButton = request.getParameter("delete_list_item");
-			String listItemIndex = listItemButton.substring(listItemButton.lastIndexOf(' ') + 1);
 			
 			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
-			if(currentOpenList.isListItemComplete(listItemIndex)) {
+			if(currentOpenList.isListItemComplete(selectedListItem)) {
 				// TODO tell user List Item is complete and cannot be deleted
 					// maybe use request.out.systemWriter() or whatever
 			} else {
-				request.getSession().setAttribute("listItemIndex", listItemIndex);		// TODO remove this session attribute
-				request.setAttribute("listItemName", currentOpenList.getListItemName(listItemIndex));		
+				request.getSession().setAttribute("listItemIndex", selectedListItem);		// TODO remove this session attribute
+				request.setAttribute("listItemToDelete", currentOpenList.getListItem(selectedListItem));
+				request.setAttribute("currentList", currentOpenList);
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list_item.jsp");
 				rd.forward(request, response);
 				return;
 			}			
 		}
 		
-		if (request.getParameter("confirm_delete_list_item") != null) {
+		if (action.equals("confirm_delete_list_item")) {
 			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
-			
-			String listItemIndex = (String) request.getSession().getAttribute("listItemIndex");
 			
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error...\n");
@@ -160,7 +152,7 @@ public class OpenList extends HttpServlet {
 			out.println("we have OPENED the Lsit!");
 			out.println(currentOpenList.toString());
 			
-			currentOpenList.deleteListItem(listItemIndex);
+			currentOpenList.deleteListItem(selectedListItem);
 			
 			if (HiberFunc.saveList(currentOpenList)) {
 				out.println(currentOpenList.toString() + " save after deleting new List Item successful");

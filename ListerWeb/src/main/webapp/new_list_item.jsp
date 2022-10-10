@@ -4,12 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="buttonAction.js"></script>
 <meta charset="ISO-8859-1">
 <title>Create New List Item</title>
 </head>
 <body>
 
-	<form action="OpenList" method="POST">
+	<form name="callServlet" action="OpenList" method="POST">
+	
+		<input type="hidden" name="action" id="action" value=""/>
+		<input type="hidden" name="selectedList" id="selectedList" value=""/>
+		<input type="hidden" name="selectedListItem" id="selectedListItem" value=""/>
+	
 		<p style="text-align: center;">
 			<strong>Welcome to ListerWeb - Now with 100% more Web!!</strong>
 		</p>
@@ -24,7 +30,7 @@
 		</p>
 
 		<p style="text-align: center;">
-			<input type="submit" value="Save New List Item" name="save_new_list_item"/>
+			<input type="button" value="Save New List Item" name="save_new_list_item" onClick="button('save_new_list_item', ${currentListId})">
 		</p>
 
 	</form>
