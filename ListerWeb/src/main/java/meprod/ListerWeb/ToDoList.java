@@ -123,6 +123,25 @@ public class ToDoList implements Serializable{
 	public boolean isListBlank() {
 		return this.listItems.isEmpty();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ToDoList) {
+			ToDoList listToCompare = (ToDoList) obj;
+			return (this.getId() == listToCompare.getId()) &&
+					(this.getListName().equals(listToCompare.getListName())) &&
+					(this.getCreationDateTime().equals(listToCompare.getCreationDateTime())) &&
+					(this.getListItems().equals(listToCompare.getListItems()));
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
 
 	@Override
 	public String toString() {
