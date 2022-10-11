@@ -70,23 +70,23 @@ public class HiberFunc {
 		return listToOpen;
 	}
 
-	protected static boolean saveList(ToDoList listToSave) {
+	protected static ToDoList saveList(ToDoList listToSave) {
 		// save a ToDoList object
-		boolean result = false; 
+		ToDoList newlySavedList = null; 
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.merge(listToSave);
+			ToDoList newList = session.merge(listToSave);
 			tx.commit();
-			result = true;		// if we make it here, the process was successful
+			newlySavedList = newList;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
 			e.printStackTrace(); 
 		} finally {
 			session.close();
 		}
-		return result;
+		return newlySavedList;
 	}
 	
 	protected static boolean deleteList(ToDoList listToDelete) {
