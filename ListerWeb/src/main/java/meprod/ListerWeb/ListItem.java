@@ -101,6 +101,35 @@ public class ListItem implements Serializable {
 		setDone(true);
 		setFinishedDateTime(new Date(System.currentTimeMillis()));
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj instanceof ListItem listToItemCompare) {
+			return (this.getId() == listToItemCompare.getId()) &&
+					(this.getListItemName().equals(listToItemCompare.getListItemName())) &&
+					(this.getCreationDateTime().equals(listToItemCompare.getCreationDateTime())) &&
+					(this.getDone() == listToItemCompare.getDone()) &&
+					// TODO decide how to handle the nulls here when listItem is not done
+//					(this.getFinishedDateTime().equals(listToItemCompare.getFinishedDateTime())) &&
+					(this.getToDoListItemNum() == listToItemCompare.getToDoListItemNum());
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
 
 	@Override
 	public String toString() {
