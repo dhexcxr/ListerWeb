@@ -126,8 +126,15 @@ public class ToDoList implements Serializable{
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ToDoList) {
-			ToDoList listToCompare = (ToDoList) obj;
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj instanceof ToDoList listToCompare) {
 			return (this.getId() == listToCompare.getId()) &&
 					(this.getListName().equals(listToCompare.getListName())) &&
 					(this.getCreationDateTime().equals(listToCompare.getCreationDateTime())) &&
