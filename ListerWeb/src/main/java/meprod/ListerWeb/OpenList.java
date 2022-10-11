@@ -32,10 +32,11 @@ public class OpenList extends HttpServlet {
 			
 		if (listToOpen == null) {		// if something went wrong
 			out.println("Database error...\n");
+			out.println("listToOpen is null in OpenList.doGet function start\n");
 			return;
 		}
 		// open list for display
-		out.println("we have OPENED the Lsit!");
+		out.println("we have OPENED the listToOpen in OpenList.doGet function start!");
 		out.println(listToOpen.toString());
 		
 		// save list and index to attributes so we can use them in open_list.jsp (and other places)
@@ -104,10 +105,11 @@ public class OpenList extends HttpServlet {
 			
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error...\n");
+				out.println("currentOpenList is null in confirm_check_off_list_item\n");
 				return;
 			}
 			// open list, and save again when done
-			out.println("we have OPENED the Lsit!");
+			out.println("we have OPENED the currentOpenList in confirm_check_off_list_item!");
 			out.println(currentOpenList.toString());
 			
 			currentOpenList.checkOffListItem(listItemIndex2);
@@ -144,11 +146,12 @@ public class OpenList extends HttpServlet {
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
 			
 			if (currentOpenList == null) {		// if something went wrong
-				out.println("Database error...\n");
+				out.println("Database error..\n");
+				out.println("currentOpenList is null in confirm_delete_list_item\n");
 				return;
 			}
 			// open list, and save again when done
-			out.println("we have OPENED the Lsit!");
+			out.println("we have OPENED the currentOpenList in confirm_delete_list_item!");
 			out.println(currentOpenList.toString());
 			
 			currentOpenList.deleteListItem(selectedListItem);

@@ -4,7 +4,6 @@ import static java.lang.System.out;
 
 import java.io.IOException;
 import java.util.List;
-//import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -85,10 +84,11 @@ public class MainMenu extends HttpServlet {
 
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");
+				out.println("listToDelete is null in delete\n");
 				return;
 			}
 			// open list, and save again when done
-			out.println("we have OPENED the Lsit!");
+			out.println("we have OPENED the listToDelete in delete!");
 			out.println(listToDelete.toString());
 
 			if (listToDelete.isListBlank()) {
@@ -108,9 +108,10 @@ public class MainMenu extends HttpServlet {
 
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");
+				out.println("listToDelete is null in confirm_delete\n");
 				return;
 			} else {		// open list, and save again when done
-				out.println("we have OPENED the Lsit!");
+				out.println("we have OPENED the listToDelete in confirm_delete!");
 				out.println(listToDelete.toString());
 			}
 
