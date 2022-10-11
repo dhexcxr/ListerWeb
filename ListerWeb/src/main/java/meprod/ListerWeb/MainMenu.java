@@ -56,10 +56,12 @@ public class MainMenu extends HttpServlet {
 		if (action.equals("save_new_list")) {
 			String newListName = request.getParameter("new_list_name");
 			ToDoList newList = new ToDoList(newListName);
-			if (HiberFunc.saveList(newList)) {
-				out.println(newList.toString() + " save successful");
-			} else {
+			ToDoList newlySavedList = HiberFunc.saveList(newList);
+			if (newlySavedList == null) {
 				out.println("error saving: " + newList.toString());
+			} else {
+				out.println(newList.toString() + " save successful");
+				listerLists.add(newlySavedList);
 			}
 		}
 		
@@ -111,10 +113,12 @@ public class MainMenu extends HttpServlet {
 
 			if (HiberFunc.deleteList(listToDelete)) {
 				out.println(listToDelete.toString() + " delete list successful");
+				listerLists.remove(listToDelete);
 			} else {
 				out.println("error deleting: " + listToDelete.toString());
 			}
 		}
+		
 		this.sendToMainIndex(request, response);
 	}
 
