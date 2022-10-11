@@ -22,17 +22,8 @@ public class MainMenu extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        // TODO maybe do database connection setup here, or load listerLists
         HiberFunc.openDbConnection();
         listerLists = HiberFunc.getLists();
-
-		// new section
-		// TODO as of right now, I don't think this is being used anywhere
-		// TODO check if this has already been stored and place it in the same place so
-			// we don't create 30,000 copies of this on the server
-//		String listerListsId = UUID.randomUUID().toString();
-//		request.getSession().setAttribute(listerListsId, listerLists);
-		// end new section
     }
 
 	@Override
@@ -101,7 +92,7 @@ public class MainMenu extends HttpServlet {
 			}
 		}
 		
-		if (action.equals("confirm_delete")) {		
+		if (action.equals("confirm_delete")) {
 			out.println("MainMenu confirm_delete_list\n");
 			
 			ToDoList listToDelete = HiberFunc.getList(listIndex);
