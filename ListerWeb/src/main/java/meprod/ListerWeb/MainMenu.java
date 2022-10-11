@@ -50,6 +50,7 @@ public class MainMenu extends HttpServlet {
 		if (action.equals("create_new")) {
 			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
 			rd.forward(request, response);
+			return;
 		}
 		
 		if (action.equals("save_new_list")) {
@@ -66,6 +67,7 @@ public class MainMenu extends HttpServlet {
 			out.println("open_list_function start");
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
+			return;
 		}
 		
 		if (action.equals("delete")) {
@@ -89,6 +91,7 @@ public class MainMenu extends HttpServlet {
 				// forward to page to confirm deletion with user
 				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
 				rd.forward(request, response);
+				return;
 			}
 		}
 		
