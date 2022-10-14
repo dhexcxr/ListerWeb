@@ -33,11 +33,12 @@
 			<input type="button" value="Save New List Item" name="save_new_list_item" onClick="button('save_new_list_item', ${currentListId})">
 		</p>
 
-	</form>
-
-	<p style="text-align: center;">
-		<input type=button value="Back" onCLick="history.back()">
+		<p style="text-align: center;">
+<!-- 		<input type=button value="Back" onCLick="history.back()"> -->
+		<input type=button value="Back to List Menu" name="back_to_list_menu" onClick="button('back_to_list_menu', ${currentListId})">
 	</p>
+
+	</form>
 
 </body>
 </html>

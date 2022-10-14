@@ -175,26 +175,43 @@ public class OpenList extends HttpServlet {
 			
 			currentOpenList.deleteListItem(selectedListItem);
 			
-			if (HiberFunc.saveList(currentOpenList)) {
-				out.println(currentOpenList.toString() + " save after deleting new List Item successful");
-			} else {
+			ToDoList newlySavedList = HiberFunc.saveList(currentOpenList);
+			if (newlySavedList == null) {
 				out.println("error saving: " + currentOpenList.toString());
+			} else {
+				out.println(currentOpenList.toString() + " save successful");
+//				listerLists.add(newlySavedList);
+				listerLists.set(listIndex, newlySavedList);
+				request.getSession().setAttribute("listerLists", listerLists);
 			}
 			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
 		}
 
-		if (request.getParameter("back_to_main_menu") != null) {
-			request.getSession().removeAttribute("openListId");		// remove current open list ID when we leave the List Menu
-			RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
-			rd.forward(request, response);
+		if (request.getParameter("back_to_main_menu") != null) {			// TODO (dont know if we're actually using this)
+//			request.getSession().removeAttribute("openListId");		// remove current open list ID when we leave the List Menu
+////			request.getSession().removeAttribute("listerLists");	// remove the attribute so we don't leave it sitting around on the server
+//			RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
+//			rd.forward(request, response);
+			goBack(request, response);
 			return;
+		}
+		
+		if (action.equals("back_to_list_menu")) {
+			sendToOpenList(request, response);
 		}
 		
 		this.doGet(request, response);		// TODO get request parameter that is sent when MainMenu servlet calls this servlet from
 												// open_list section, then after refactoring open_list.jsp UI setup from this.doGet() into
 												// its own method, have an if (request.getParamete("[that Parameter]" != null) section in here
 												// that will call that open_list.jsp UI setup method
+	}
+	
+	private void goBack(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().removeAttribute("openListId");		// remove current open list ID when we leave the List Menu
+//		request.getSession().removeAttribute("listerLists");	// remove the attribute so we don't leave it sitting around on the server
+		RequestDispatcher rd = request.getRequestDispatcher("/MainMenu");
+		rd.forward(request, response);
 	}
 
 }
