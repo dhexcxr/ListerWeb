@@ -24,20 +24,22 @@ public class OpenList extends HttpServlet {
             throws ServletException, IOException {
 		
 		out.println("OpenList.doGet function\n");
-		
-		// TODO refactor this UI prep into its own method so we don't have to call this.doGet
-
+		sendToOpenList(request, response);
+	}
+	
+	private void sendToOpenList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String listIndex = request.getParameter("selectedList");
 		
 		ToDoList listToOpen = HiberFunc.getList(listIndex);
 			
 		if (listToOpen == null) {		// if something went wrong
 			out.println("Database error...\n");
-			out.println("listToOpen is null in OpenList.doGet function start\n");
+			out.println("listToOpen is null in OpenList.sendToOpenList function start\n");
+			goBack(request, response);
 			return;
 		}
 		// open list for display
-		out.println("we have OPENED the listToOpen in OpenList.doGet function start!");
+		out.println("we have OPENED the listToOpen in OpenList.sendToOpenList function start!");
 		out.println(listToOpen.toString());
 		
 		// save list and index to attributes so we can use them in open_list.jsp (and other places)
