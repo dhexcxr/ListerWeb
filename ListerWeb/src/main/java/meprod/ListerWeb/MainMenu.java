@@ -3,6 +3,7 @@ package meprod.ListerWeb;
 import static java.lang.System.out;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +19,7 @@ public class MainMenu extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 4450333060913498431L;
-	private static List<ToDoList> listerLists;
+	private List<ToDoList> listerLists;
 
 	public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -36,6 +37,23 @@ public class MainMenu extends HttpServlet {
 	private void sendToMainIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		out.println("MainMenu.sendToMainIndex");
 		out.println(listerLists.get(0).toString());
+		
+		// if we're returning from OpenLists get the updated listerLists from the session.attribute
+		List<ToDoList> sessionListerLists = null;
+		Object objectListerLists = request.getSession().getAttribute("listerLists");
+		// if the object we just retrieved from the session.attribute is in fact our listerList 
+		if (objectListerLists instanceof List<?> castListerLists) {
+			sessionListerLists = new ArrayList<>();
+			for (Object objectToDoList : castListerLists) {
+				if (objectToDoList instanceof ToDoList toDoList) {
+					sessionListerLists.add(toDoList);
+				}
+			}
+			// then copy it into our local variable and remove the session.attribute
+			listerLists = sessionListerLists;
+			request.getSession().removeAttribute("listerLists");
+		}
+		
 		request.setAttribute("listerLists", listerLists);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
@@ -67,6 +85,7 @@ public class MainMenu extends HttpServlet {
 		
 		if (action.equals("open")) {
 			out.println("open_list_function start");
+			request.getSession().setAttribute("listerLists", listerLists);
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 			rd.forward(request, response);
 			return;

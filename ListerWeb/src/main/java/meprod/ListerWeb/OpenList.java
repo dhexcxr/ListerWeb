@@ -3,6 +3,7 @@ package meprod.ListerWeb;
 import static java.lang.System.out;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,11 +49,18 @@ public class OpenList extends HttpServlet {
 		rd.forward(request, response);
 	}
 	
-	
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		out.println("OpenList.doPost");
+		
+		// TODO check this cast
+		List<ToDoList> listerLists = (List<ToDoList>) request.getSession().getAttribute("listerLists");
+		
+		if (listerLists == null) {
+			out.println("OpenList.doPost: something went wrong on the server retreiving listerLists");
+			return;
+		}
 		
 		String action = request.getParameter("action");
 		String selectedList = request.getParameter("selectedList");
@@ -66,14 +74,19 @@ public class OpenList extends HttpServlet {
 		}
 		
 		if (action.equals("save_new_list_item")) {
-//			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			String newListName = request.getParameter("new_list_item_name");
 			ToDoList openList = HiberFunc.getList(selectedList);
+			int listIndex = listerLists.indexOf(openList);
+			
 			openList.addListItem(newListName);
-			if (HiberFunc.saveList(openList)) {
-				out.println(openList.toString() + " save with new List Item successful");
-			} else {
+			
+			ToDoList newlySavedList = HiberFunc.saveList(openList);
+			if (newlySavedList == null) {
 				out.println("error saving: " + openList.toString());
+			} else {
+				out.println(openList.toString() + " save successful");
+				listerLists.set(listIndex, newlySavedList);
+				request.getSession().setAttribute("listerLists", listerLists);
 			}
 			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
@@ -114,10 +127,12 @@ public class OpenList extends HttpServlet {
 			
 			currentOpenList.checkOffListItem(listItemIndex2);
 			
-			if (HiberFunc.saveList(currentOpenList)) {
-				out.println(currentOpenList.toString() + " save with check off List Item successful");
-			} else {
+			ToDoList newlySavedList = HiberFunc.saveList(currentOpenList);
+			if (newlySavedList == null) {
 				out.println("error saving: " + currentOpenList.toString());
+			} else {
+				out.println(currentOpenList.toString() + " save successful");
+//				listerLists.add(newlySavedList);
 			}
 			this.doGet(request, response);		// TODO see if I can remove these doGets and returns, and let fallthrough to doGet at end
 			return;
@@ -144,6 +159,8 @@ public class OpenList extends HttpServlet {
 		if (action.equals("confirm_delete_list_item")) {
 			int openListId = (Integer) request.getSession().getAttribute("openListId");	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
+			
+			int listIndex = listerLists.indexOf(currentOpenList);
 			
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error..\n");
