@@ -121,7 +121,8 @@ public class OpenList extends HttpServlet {
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error...\n");
 				out.println("currentOpenList is null in confirm_check_off_list_item\n");
-				return;
+				goBack(request, response);		// TODO do we want to return to the main menu from here, maybe make an error page that tells the user
+				return;								// what happened and show a button to return to main menu, and refresh the ToDo List there
 			}
 			// open list, and save again when done
 			out.println("we have OPENED the currentOpenList in confirm_check_off_list_item!");
@@ -167,7 +168,8 @@ public class OpenList extends HttpServlet {
 			if (currentOpenList == null) {		// if something went wrong
 				out.println("Database error..\n");
 				out.println("currentOpenList is null in confirm_delete_list_item\n");
-				return;
+				goBack(request, response);		// TODO do we want to return to the main menu from here, maybe make an error page that tells the user
+				return;								// what happened and show a button to return to main menu, and refresh the ToDo List there
 			}
 			// open list, and save again when done
 			out.println("we have OPENED the currentOpenList in confirm_delete_list_item!");
