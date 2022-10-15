@@ -29,7 +29,7 @@
 
 		<p style="text-align: center;">
 			<input type="button" value="Check Off List Item" name="confirm_check_off_list_item" onClick="button('confirm_check_off_list_item', ${currentList.id}, ${listItemToCheckOff.toDoListItemNum})">
-			<input type="button" value="Back" onCLick="history.back()" />
+			<input type=button value="Back to List Menu" name="back_to_list_menu" onClick="button('back_to_list_menu', ${currentList.id})">
 		</p>
 
 	</form>
