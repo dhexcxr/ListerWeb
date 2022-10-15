@@ -201,6 +201,7 @@ public class OpenList extends HttpServlet {
 		
 		if (action.equals("back_to_list_menu")) {
 			sendToOpenList(request, response);
+			return;
 		}
 		
 		this.doGet(request, response);		// TODO get request parameter that is sent when MainMenu servlet calls this servlet from
