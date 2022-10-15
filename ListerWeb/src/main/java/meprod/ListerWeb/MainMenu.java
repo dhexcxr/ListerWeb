@@ -63,7 +63,7 @@ public class MainMenu extends HttpServlet {
             throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
-		String listIndex = request.getParameter("selectedList");
+		String listIndexId = request.getParameter("selectedListId");
 
 		if (action.equals("create_new")) {
 			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
@@ -94,7 +94,7 @@ public class MainMenu extends HttpServlet {
 		if (action.equals("delete")) {
 			out.println("MainMenu delete_list\n");
 
-			ToDoList listToDelete = HiberFunc.getList(listIndex);
+			ToDoList listToDelete = HiberFunc.getList(listIndexId);
 
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");
@@ -119,7 +119,7 @@ public class MainMenu extends HttpServlet {
 		if (action.equals("confirm_delete")) {
 			out.println("MainMenu confirm_delete_list\n");
 			
-			ToDoList listToDelete = HiberFunc.getList(listIndex);
+			ToDoList listToDelete = HiberFunc.getList(listIndexId);
 
 			if (listToDelete == null) {		// if something went wrong
 				out.println("Database error...\n");

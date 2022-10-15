@@ -28,7 +28,7 @@ public class OpenList extends HttpServlet {
 	}
 	
 	private void sendToOpenList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String listIndex = request.getParameter("selectedList");
+		String listIndex = request.getParameter("selectedListId");
 		
 		ToDoList listToOpen = HiberFunc.getList(listIndex);
 			
@@ -65,11 +65,11 @@ public class OpenList extends HttpServlet {
 		}
 		
 		String action = request.getParameter("action");
-		String selectedList = request.getParameter("selectedList");
+		String selectedListId = request.getParameter("selectedListId");
 		String selectedListItem = request.getParameter("selectedListItem");
 
 		if (action.equals("create_new_list_item")) {
-			request.setAttribute("currentListId", selectedList);
+			request.setAttribute("currentListId", selectedListId);
 			RequestDispatcher rd = request.getRequestDispatcher("new_list_item.jsp");
 			rd.forward(request, response);
 			return;
@@ -77,7 +77,7 @@ public class OpenList extends HttpServlet {
 		
 		if (action.equals("save_new_list_item")) {
 			String newListName = request.getParameter("new_list_item_name");
-			ToDoList openList = HiberFunc.getList(selectedList);
+			ToDoList openList = HiberFunc.getList(selectedListId);
 			int listIndex = listerLists.indexOf(openList);
 			
 			openList.addListItem(newListName);
@@ -113,7 +113,7 @@ public class OpenList extends HttpServlet {
 		}
 		
 		if (action.equals("confirm_check_off_list_item")) {
-			int openListId = Integer.parseInt(request.getParameter("selectedList"));	// TODO change this to the list itself
+			int openListId = Integer.parseInt(request.getParameter("selectedListId"));	// TODO change this to the list itself
 			ToDoList currentOpenList = HiberFunc.getList(openListId);
 			
 			String listItemIndex2 = request.getParameter("selectedListItem");

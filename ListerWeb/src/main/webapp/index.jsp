@@ -13,7 +13,7 @@
 	<form name="callServlet" action="MainMenu" method="POST">
 	
 	<input type="hidden" name="action" id="action" value=""/>
-	<input type="hidden" name="selectedList" id="selectedList" value=""/>
+	<input type="hidden" name="selectedListId" id="selectedListId" value=""/>
 	<input type="hidden" name="selectedListItem" id="selectedListItem" value=""/>
 
 <!-- 		new section, this is as of yet, unused -->
