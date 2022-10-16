@@ -21,6 +21,7 @@ public class MainMenu extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 4450333060913498431L;
+	private static final String LISTER_LISTS_ATTRIBUTE_NAME = "listerLists";
 	private List<ToDoList> listerLists;
 
 	public void init(ServletConfig config) throws ServletException {
@@ -42,7 +43,7 @@ public class MainMenu extends HttpServlet {
 		
 		// if we're returning from OpenLists get the updated listerLists from the session.attribute
 		List<ToDoList> sessionListerLists = null;
-		Object objectListerLists = request.getSession().getAttribute("listerLists");
+		Object objectListerLists = request.getSession().getAttribute(LISTER_LISTS_ATTRIBUTE_NAME);
 		// if the object we just retrieved from the session.attribute is in fact our listerList 
 		if (objectListerLists instanceof List<?> castListerLists) {
 			sessionListerLists = new ArrayList<>();
@@ -53,10 +54,10 @@ public class MainMenu extends HttpServlet {
 			}
 			// then copy it into our local variable and remove the session.attribute
 			listerLists = sessionListerLists;
-			request.getSession().removeAttribute("listerLists");
+			request.getSession().removeAttribute(LISTER_LISTS_ATTRIBUTE_NAME);
 		}
 		
-		request.setAttribute("listerLists", listerLists);
+		request.setAttribute(LISTER_LISTS_ATTRIBUTE_NAME, listerLists);
 		try {
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (ServletException | IOException ex) {
@@ -123,7 +124,7 @@ public class MainMenu extends HttpServlet {
 
 	private void openList(HttpServletRequest request, HttpServletResponse response) {
 		// open selected list from listerLists, list ID is set by JavaScript called from index.jsp
-		request.getSession().setAttribute("listerLists", listerLists);
+		request.getSession().setAttribute(LISTER_LISTS_ATTRIBUTE_NAME, listerLists);
 		RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
 		try {
 			rd.forward(request, response);
