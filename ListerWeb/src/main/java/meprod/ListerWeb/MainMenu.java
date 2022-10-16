@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
+
 public class MainMenu extends HttpServlet {
 	
 	/**
@@ -34,7 +36,7 @@ public class MainMenu extends HttpServlet {
 		sendToMainIndex(request, response);
 	}
 	
-	private void sendToMainIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void sendToMainIndex(HttpServletRequest request, HttpServletResponse response) {
 		out.println("MainMenu.sendToMainIndex");
 		out.println(listerLists.get(0).toString());
 		
@@ -55,7 +57,11 @@ public class MainMenu extends HttpServlet {
 		}
 		
 		request.setAttribute("listerLists", listerLists);
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		try {
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		} catch (ServletException | IOException ex) {
+			goToErrorPage(ex);
+		}
 	}
 	
 	@Override
@@ -66,79 +72,100 @@ public class MainMenu extends HttpServlet {
 		String listIndexId = request.getParameter("selectedListId");
 
 		if (action.equals("create_new")) {
-			RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
-			rd.forward(request, response);
-			return;
+			goToCreateNewListPage(request, response);
 		}
 		
 		if (action.equals("save_new_list")) {
-			String newListName = request.getParameter("new_list_name");
-			ToDoList newList = new ToDoList(newListName);
-			ToDoList newlySavedList = HiberFunc.saveList(newList);
-			if (newlySavedList == null) {
-				out.println("error saving: " + newList.toString());
-			} else {
-				out.println(newList.toString() + " save successful");
-				listerLists.add(newlySavedList);
-			}
+			saveNewList(request, response);
 		}
 		
 		if (action.equals("open")) {
 			out.println("open_list_function start");
-			request.getSession().setAttribute("listerLists", listerLists);
-			RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
-			rd.forward(request, response);
-			return;
+			openList(request, response);
 		}
 		
 		if (action.equals("delete")) {
 			out.println("MainMenu delete_list\n");
-
-			ToDoList listToDelete = HiberFunc.getList(listIndexId);
-
-			if (listToDelete == null) {		// if something went wrong
-				out.println("Database error...\n");
-				out.println("listToDelete is null in delete\n");
-				return;
-			}
-			// open list, and save again when done
-			out.println("we have OPENED the listToDelete in delete!");
-			out.println(listToDelete.toString());
-
-			if (listToDelete.isListBlank()) {
-				// list is empty, ok to delete
-				request.setAttribute("listToDelete", listToDelete);
-				
-				// forward to page to confirm deletion with user
-				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
-				rd.forward(request, response);
-				return;
-			}
+			goToListDeletePage(request, response, listIndexId);
 		}
 		
 		if (action.equals("confirm_delete")) {
 			out.println("MainMenu confirm_delete_list\n");
-			
-			ToDoList listToDelete = HiberFunc.getList(listIndexId);
-
-			if (listToDelete == null) {		// if something went wrong
-				out.println("Database error...\n");
-				out.println("listToDelete is null in confirm_delete\n");
-				return;
-			} else {		// open list, and save again when done
-				out.println("we have OPENED the listToDelete in confirm_delete!");
-				out.println(listToDelete.toString());
-			}
-
-			if (HiberFunc.deleteList(listToDelete)) {
-				out.println(listToDelete.toString() + " delete list successful");
-				listerLists.remove(listToDelete);
-			} else {
-				out.println("error deleting: " + listToDelete.toString());
-			}
+			confirmListDelete(request, response, listIndexId);
 		}
 		
-		this.sendToMainIndex(request, response);
+		if (action.equals("")) {
+			// reload Main Menu
+			sendToMainIndex(request, response);
+		}
+	}
+
+	private void goToCreateNewListPage(HttpServletRequest request, HttpServletResponse response) {
+		RequestDispatcher rd = request.getRequestDispatcher("new_list.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException | IOException ex) {
+			goToErrorPage(ex);
+		}
+	}
+
+	private void saveNewList(HttpServletRequest request, HttpServletResponse response) {
+		String newListName = request.getParameter("new_list_name");
+		ToDoList newList = new ToDoList(newListName);
+		try {
+			ToDoList newlySavedList = HiberFunc.saveList(newList);
+			listerLists.add(newlySavedList);
+		} catch (HibernateException ex) {
+			goToErrorPage(ex);
+		}
+		sendToMainIndex(request, response);
+	}
+
+	private void openList(HttpServletRequest request, HttpServletResponse response) {
+		// open selected list from listerLists, list ID is set by JavaScript called from index.jsp
+		request.getSession().setAttribute("listerLists", listerLists);
+		RequestDispatcher rd = request.getRequestDispatcher("/OpenList");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException | IOException ex) {
+			goToErrorPage(ex);
+		}
+	}
+
+	private void goToListDeletePage(HttpServletRequest request, HttpServletResponse response, String listIndexId) {
+		try {
+			ToDoList listToDelete = HiberFunc.getList(listIndexId);
+			if (listToDelete.isListBlank()) {		// TODO probably don't need this, delete button doesn't appear unless list is blank
+				// list is empty, ok to delete
+				request.setAttribute("listToDelete", listToDelete);
+				// forward to page to confirm deletion with user
+				RequestDispatcher rd = request.getRequestDispatcher("delete_list.jsp");
+				rd.forward(request, response);
+			}
+		} catch (HibernateException | ServletException | IOException ex) {
+			goToErrorPage(ex);
+		}
+	}
+
+	private void confirmListDelete(HttpServletRequest request, HttpServletResponse response, String listIndexId) {
+		try {
+			ToDoList listToDelete = HiberFunc.getList(listIndexId);
+			HiberFunc.deleteList(listToDelete);
+			listerLists.remove(listToDelete);
+			this.sendToMainIndex(request, response);
+		} catch (HibernateException ex) {
+			goToErrorPage(ex);
+		}
+	}
+	
+	private void goToErrorPage(Exception ex) {
+		// TODO make and send to error page
+		if (ex instanceof HibernateException) {
+			out.println("Database error...\n");
+		} else if (ex instanceof ServletException || ex instanceof IOException) {
+			out.println("Server error...\n");
+		}
+		ex.printStackTrace();
 	}
 
 	@Override

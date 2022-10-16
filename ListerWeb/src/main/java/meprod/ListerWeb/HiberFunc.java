@@ -48,11 +48,11 @@ public class HiberFunc {
 		return listerLists;
 	}
 	
-	protected static ToDoList getList(String listPK) {
+	protected static ToDoList getList(String listPK) throws HibernateException{
 		return getList(Integer.parseInt(listPK));
 	}
 	
-	protected static ToDoList getList(int listPK) {
+	protected static ToDoList getList(int listPK) throws HibernateException{
 		// get one list by index/primary key
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
@@ -63,14 +63,15 @@ public class HiberFunc {
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
+			e.printStackTrace();
+			throw e;
 		} finally {
 			session.close(); 
 		}
 		return listToOpen;
 	}
 
-	protected static ToDoList saveList(ToDoList listToSave) {
+	protected static ToDoList saveList(ToDoList listToSave) throws HibernateException {
 		// save a ToDoList object
 		ToDoList newlySavedList = null; 
 		Session session = sessionFactory.openSession();
@@ -82,14 +83,15 @@ public class HiberFunc {
 			newlySavedList = newList;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
+			e.printStackTrace();
+			throw e;
 		} finally {
 			session.close();
 		}
 		return newlySavedList;
 	}
 	
-	protected static boolean deleteList(ToDoList listToDelete) {
+	protected static boolean deleteList(ToDoList listToDelete) throws HibernateException {
 		// save a ToDoList object
 		boolean result = false; 
 		Session session = sessionFactory.openSession();
@@ -101,7 +103,8 @@ public class HiberFunc {
 			result = true;		// if we make it here, the process was successful
 		} catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
+			e.printStackTrace();
+			throw e;
 		} finally {
 			session.close();
 		}
